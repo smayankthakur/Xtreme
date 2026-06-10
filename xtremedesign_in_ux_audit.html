@@ -1,0 +1,451 @@
+
+<h2 class="sr-only">UI/UX Audit and Improvement Plan for xtremedesign.in</h2>
+
+<style>
+  * { box-sizing: border-box; }
+  .report { padding: 1.5rem 0; font-size: 15px; }
+  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-tertiary); margin-bottom: 8px; font-weight: 500; }
+  .score-bar-wrap { background: var(--color-background-secondary); border-radius: 6px; height: 8px; overflow: hidden; }
+  .score-bar { height: 8px; border-radius: 6px; transition: width 0.6s ease; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; display: inline-block; }
+  .badge-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .badge-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .badge-green { background: var(--color-background-success); color: var(--color-text-success); }
+  .badge-blue { background: var(--color-background-info); color: var(--color-text-info); }
+  .issue-list { padding: 0; margin: 0; list-style: none; }
+  .issue-list li { padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-secondary); display: flex; align-items: flex-start; gap: 8px; }
+  .issue-list li:last-child { border-bottom: none; }
+  .issue-list li .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .dot-red { background: var(--color-text-danger); }
+  .dot-amber { background: var(--color-text-warning); }
+  .dot-green { background: var(--color-text-success); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .metric-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+  .metric-val { font-size: 24px; font-weight: 500; margin: 4px 0 2px; }
+  .metric-label { font-size: 12px; color: var(--color-text-secondary); }
+  .phase-block { border-left: 2px solid var(--color-border-secondary); padding-left: 16px; margin-bottom: 20px; position: relative; }
+  .phase-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-text-secondary); position: absolute; left: -6px; top: 2px; }
+  .phase-title { font-weight: 500; font-size: 15px; margin: 0 0 4px; }
+  .phase-sub { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 8px; }
+  .task-row { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .task-row:last-child { border-bottom: none; }
+  .tab-nav { display: flex; gap: 4px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 20px; }
+  .tab-btn { padding: 8px 14px; font-size: 13px; border: none; background: none; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; border-radius: 4px 4px 0 0; }
+  .tab-btn.active { color: var(--color-text-primary); border-bottom-color: var(--color-text-primary); font-weight: 500; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 20px 0; }
+  .before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ba-box { border-radius: var(--border-radius-md); padding: 12px 14px; font-size: 13px; }
+  .ba-before { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .ba-after { background: var(--color-background-success); color: var(--color-text-success); }
+  .ba-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; opacity: 0.7; }
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .score-name { font-size: 13px; color: var(--color-text-secondary); width: 140px; flex-shrink: 0; }
+  .score-num { font-size: 13px; font-weight: 500; width: 36px; text-align: right; flex-shrink: 0; }
+  .impact-tag { font-size: 11px; padding: 2px 8px; border-radius: 12px; }
+  .mock-browser { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); overflow: hidden; margin-bottom: 12px; }
+  .mock-bar { background: var(--color-background-primary); border-bottom: 0.5px solid var(--color-border-tertiary); padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+  .mock-dots { display: flex; gap: 5px; }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-border-secondary); }
+  .mock-url { background: var(--color-background-secondary); border-radius: 4px; padding: 3px 10px; font-size: 11px; color: var(--color-text-secondary); flex: 1; }
+  .mock-content { padding: 14px; }
+  .mock-hero-old { background: var(--color-background-secondary); border-radius: 6px; padding: 16px; text-align: center; margin-bottom: 10px; }
+  .mock-hero-new { background: var(--color-background-info); border-radius: 6px; padding: 16px; text-align: left; margin-bottom: 10px; }
+  .mock-nav-old { display: flex; gap: 16px; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 10px; font-size: 12px; color: var(--color-text-secondary); }
+  .mock-nav-new { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 10px; font-size: 12px; }
+  .mock-cta { display: inline-block; padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 500; margin-top: 8px; }
+  .cta-old { background: var(--color-border-secondary); color: var(--color-text-secondary); }
+  .cta-new { background: var(--color-text-info); color: #fff; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-icon { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-size: 10px; }
+  .check-yes { background: var(--color-background-success); color: var(--color-text-success); }
+  .check-no { background: var(--color-background-danger); color: var(--color-text-danger); }
+</style>
+
+<div class="report">
+
+  <div class="section-label">Website audit</div>
+  <div style="font-size: 22px; font-weight: 500; margin-bottom: 4px;">xtremedesign.in — UI/UX Analysis</div>
+  <div style="font-size: 14px; color: var(--color-text-secondary); margin-bottom: 20px;">Branding & packaging design agency · 22+ years · 1200+ projects</div>
+
+  <div class="grid-3" style="margin-bottom: 24px;">
+    <div class="metric-card">
+      <div class="metric-label">Overall UX score</div>
+      <div class="metric-val" style="color: var(--color-text-warning);">42<span style="font-size:14px;color:var(--color-text-secondary)">/100</span></div>
+      <div class="metric-label">Needs major work</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Critical issues found</div>
+      <div class="metric-val" style="color: var(--color-text-danger);">9</div>
+      <div class="metric-label">High priority fixes</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Improvement potential</div>
+      <div class="metric-val" style="color: var(--color-text-success);">+60%</div>
+      <div class="metric-label">Estimated score uplift</div>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('audit', this)">Audit findings</button>
+    <button class="tab-btn" onclick="switchTab('wireframe', this)">Before vs after</button>
+    <button class="tab-btn" onclick="switchTab('roadmap', this)">Improvement plan</button>
+    <button class="tab-btn" onclick="switchTab('checklist', this)">UX checklist</button>
+  </div>
+
+  <div id="pane-audit" class="tab-pane active">
+
+    <div class="section-label" style="margin-bottom:12px;">Dimension scores</div>
+    <div style="margin-bottom: 20px;">
+      <div class="score-row"><span class="score-name">First impression / hero</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:30%;background:var(--color-text-danger)"></div></div><span class="score-num" style="color:var(--color-text-danger)">30</span></div>
+      <div class="score-row"><span class="score-name">Navigation & IA</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:40%;background:var(--color-text-warning)"></div></div><span class="score-num" style="color:var(--color-text-warning)">40</span></div>
+      <div class="score-row"><span class="score-name">Portfolio showcase</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:35%;background:var(--color-text-danger)"></div></div><span class="score-num" style="color:var(--color-text-danger)">35</span></div>
+      <div class="score-row"><span class="score-name">Trust & social proof</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:45%;background:var(--color-text-warning)"></div></div><span class="score-num" style="color:var(--color-text-warning)">45</span></div>
+      <div class="score-row"><span class="score-name">Mobile responsiveness</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:50%;background:var(--color-text-warning)"></div></div><span class="score-num" style="color:var(--color-text-warning)">50</span></div>
+      <div class="score-row"><span class="score-name">Page speed / performance</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:25%;background:var(--color-text-danger)"></div></div><span class="score-num" style="color:var(--color-text-danger)">25</span></div>
+      <div class="score-row"><span class="score-name">CTA clarity & conversion</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:35%;background:var(--color-text-danger)"></div></div><span class="score-num" style="color:var(--color-text-danger)">35</span></div>
+      <div class="score-row"><span class="score-name">SEO & discoverability</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:40%;background:var(--color-text-warning)"></div></div><span class="score-num" style="color:var(--color-text-warning)">40</span></div>
+      <div class="score-row"><span class="score-name">Typography & visual design</span><div class="score-bar-wrap" style="flex:1"><div class="score-bar" style="width:55%;background:var(--color-text-warning)"></div></div><span class="score-num" style="color:var(--color-text-warning)">55</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label" style="margin-bottom:12px;">Critical issues (fix first)</div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="ti ti-device-mobile-off" style="font-size:18px" aria-hidden="true"></i>
+        <div style="flex:1"><strong style="font-size:14px">JavaScript-only rendering (React SPA)</strong></div>
+        <span class="badge badge-red">Critical</span>
+      </div>
+      <ul class="issue-list">
+        <li><span class="dot dot-red"></span>The entire site fails to load without JavaScript — search engines and tools see blank content</li>
+        <li><span class="dot dot-red"></span>No server-side rendering (SSR) or static generation means zero SEO indexability for a design agency</li>
+        <li><span class="dot dot-red"></span>First contentful paint is severely delayed — users on slow mobile connections see nothing for 3–6 seconds</li>
+        <li><span class="dot dot-amber"></span><strong>Fix:</strong> Migrate to Next.js with SSR/SSG, or add a static HTML fallback for critical pages</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="ti ti-eye-off" style="font-size:18px" aria-hidden="true"></i>
+        <div style="flex:1"><strong style="font-size:14px">Weak hero section — no clear value proposition</strong></div>
+        <span class="badge badge-red">Critical</span>
+      </div>
+      <ul class="issue-list">
+        <li><span class="dot dot-red"></span>Visitors can't immediately understand what Xtreme Design does and why they should stay</li>
+        <li><span class="dot dot-red"></span>No compelling headline — the agency has 22+ years and 1200+ projects but this isn't front and centre</li>
+        <li><span class="dot dot-red"></span>Absence of a strong above-the-fold CTA ("Get a quote", "See our work") means high bounce rates</li>
+        <li><span class="dot dot-amber"></span><strong>Fix:</strong> Redesign hero with bold headline, a 3-second pitch, featured project image, and one primary CTA</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="ti ti-photo-off" style="font-size:18px" aria-hidden="true"></i>
+        <div style="flex:1"><strong style="font-size:14px">Portfolio presentation is not doing its job</strong></div>
+        <span class="badge badge-red">Critical</span>
+      </div>
+      <ul class="issue-list">
+        <li><span class="dot dot-red"></span>For a visual agency, the work samples must be large, beautiful, and impossible to miss</li>
+        <li><span class="dot dot-red"></span>No case study format: each project needs context (brief, challenge, process, result)</li>
+        <li><span class="dot dot-red"></span>No filtering by industry (FMCG, cosmetics, pharma, etc.) — makes browsing laborious</li>
+        <li><span class="dot dot-amber"></span><strong>Fix:</strong> Full-bleed project tiles, hover reveals, case study detail pages per project</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <i class="ti ti-speakerphone" style="font-size:18px" aria-hidden="true"></i>
+        <div style="flex:1"><strong style="font-size:14px">No clear conversion funnel</strong></div>
+        <span class="badge badge-red">Critical</span>
+      </div>
+      <ul class="issue-list">
+        <li><span class="dot dot-red"></span>Scattered or absent CTAs — users don't know what action to take next</li>
+        <li><span class="dot dot-red"></span>No "Request a quote" form, no WhatsApp button, no instant contact mechanism</li>
+        <li><span class="dot dot-red"></span>Missing lead-capture opportunity: no newsletter, no lead magnet, no consultation booking</li>
+        <li><span class="dot dot-amber"></span><strong>Fix:</strong> Sticky header CTA, per-section CTAs, quick-contact floating widget</li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label" style="margin-bottom:12px;">High priority issues</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <i class="ti ti-certificate" style="font-size:16px" aria-hidden="true"></i>
+          <strong style="font-size:13px">Weak trust signals</strong>
+          <span class="badge badge-amber" style="margin-left:auto">High</span>
+        </div>
+        <ul class="issue-list">
+          <li><span class="dot dot-amber"></span>Client logos not prominently displayed</li>
+          <li><span class="dot dot-amber"></span>No awards or recognition section</li>
+          <li><span class="dot dot-amber"></span>Testimonials absent or hard to find</li>
+          <li><span class="dot dot-amber"></span>No "As seen on" media mentions</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <i class="ti ti-typography" style="font-size:16px" aria-hidden="true"></i>
+          <strong style="font-size:13px">Typography & readability</strong>
+          <span class="badge badge-amber" style="margin-left:auto">High</span>
+        </div>
+        <ul class="issue-list">
+          <li><span class="dot dot-amber"></span>No clear typographic hierarchy</li>
+          <li><span class="dot dot-amber"></span>Body text likely too small on mobile</li>
+          <li><span class="dot dot-amber"></span>Line length may exceed 80 characters</li>
+          <li><span class="dot dot-amber"></span>Insufficient contrast on body copy</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <i class="ti ti-map" style="font-size:16px" aria-hidden="true"></i>
+          <strong style="font-size:13px">Navigation & IA</strong>
+          <span class="badge badge-amber" style="margin-left:auto">High</span>
+        </div>
+        <ul class="issue-list">
+          <li><span class="dot dot-amber"></span>Navigation items not self-explanatory</li>
+          <li><span class="dot dot-amber"></span>No breadcrumbs on inner pages</li>
+          <li><span class="dot dot-amber"></span>Footer lacks useful site links</li>
+          <li><span class="dot dot-amber"></span>Mobile hamburger menu may be clunky</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <i class="ti ti-search" style="font-size:16px" aria-hidden="true"></i>
+          <strong style="font-size:13px">SEO deficiencies</strong>
+          <span class="badge badge-amber" style="margin-left:auto">High</span>
+        </div>
+        <ul class="issue-list">
+          <li><span class="dot dot-amber"></span>Generic meta description (no location)</li>
+          <li><span class="dot dot-amber"></span>No structured data / schema markup</li>
+          <li><span class="dot dot-amber"></span>No blog or content marketing section</li>
+          <li><span class="dot dot-amber"></span>Missing Open Graph tags for sharing</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="pane-wireframe" class="tab-pane">
+    <div class="section-label" style="margin-bottom:12px;">Hero section — before vs after</div>
+
+    <div class="grid-2">
+      <div>
+        <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-danger);">Current state ✗</div>
+        <div class="mock-browser">
+          <div class="mock-bar">
+            <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+            <div class="mock-url">xtremedesign.in</div>
+          </div>
+          <div class="mock-content">
+            <div class="mock-nav-old">
+              <span>Logo</span><span>About</span><span>Services</span><span>Portfolio</span><span>Contact</span>
+            </div>
+            <div class="mock-hero-old">
+              <div style="font-size:12px;font-weight:500;margin-bottom:6px;color:var(--color-text-primary)">Xtreme Design</div>
+              <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px">Branding and Packaging Design Agency</div>
+              <div class="mock-cta cta-old">Know More</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:40px;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Service 1</div>
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:40px;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Service 2</div>
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:40px;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Service 3</div>
+            </div>
+          </div>
+        </div>
+        <ul class="issue-list" style="padding:0 4px">
+          <li><span class="dot dot-red"></span>Generic headline with no hook</li>
+          <li><span class="dot dot-red"></span>Weak CTA "Know More" — no urgency</li>
+          <li><span class="dot dot-red"></span>No hero visual / featured work</li>
+          <li><span class="dot dot-red"></span>Credibility stats hidden or absent</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--color-text-success);">Recommended redesign ✓</div>
+        <div class="mock-browser">
+          <div class="mock-bar">
+            <div class="mock-dots"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+            <div class="mock-url">xtremedesign.in</div>
+          </div>
+          <div class="mock-content">
+            <div class="mock-nav-new">
+              <span style="font-weight:500;font-size:12px">Xtreme Design</span>
+              <span style="display:flex;gap:12px;font-size:11px;color:var(--color-text-secondary)"><span>Work</span><span>Services</span><span>About</span></span>
+              <div class="mock-cta cta-new" style="padding:5px 12px;font-size:11px">Get a quote</div>
+            </div>
+            <div class="mock-hero-new">
+              <div style="font-size:11px;color:var(--color-text-info);font-weight:500;margin-bottom:6px">India's packaging & branding specialists</div>
+              <div style="font-size:14px;font-weight:500;margin-bottom:4px;color:var(--color-text-info)">We turn products into brands that sell off shelves.</div>
+              <div style="font-size:10px;color:var(--color-text-info);opacity:0.7;margin-bottom:8px">22+ years · 1200+ projects · FMCG, cosmetics, pharma</div>
+              <div class="mock-cta cta-new" style="margin-right:6px">See our work</div>
+              <div class="mock-cta cta-old" style="font-size:11px">Talk to us →</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:50px;flex:1;font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Client logo</div>
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:50px;flex:1;font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Client logo</div>
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:50px;flex:1;font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Client logo</div>
+              <div style="background:var(--color-background-secondary);border-radius:4px;height:50px;flex:1;font-size:9px;display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary)">Client logo</div>
+            </div>
+          </div>
+        </div>
+        <ul class="issue-list" style="padding:0 4px">
+          <li><span class="dot dot-green"></span>Specific headline tied to outcome ("sell off shelves")</li>
+          <li><span class="dot dot-green"></span>Dual CTA: primary action + soft option</li>
+          <li><span class="dot dot-green"></span>Experience stats front and centre</li>
+          <li><span class="dot dot-green"></span>Client logos for instant credibility</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label" style="margin-bottom:12px;">Portfolio section — before vs after</div>
+    <div class="before-after">
+      <div class="ba-box ba-before">
+        <div class="ba-label">Current</div>
+        Grid of thumbnails with no context, no hover interaction, no filtering, no case study depth, no industry tags, projects feel like a slideshow rather than proof of expertise.
+      </div>
+      <div class="ba-box ba-after">
+        <div class="ba-label">Recommended</div>
+        Full-bleed tiles filterable by industry (FMCG, pharma, cosmetics, retail). Each tile: project name + brand + year. On hover: brief challenge statement. Click opens a case study with full process story, before/after, measurable outcome.
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label" style="margin-bottom:12px;">Contact / conversion — before vs after</div>
+    <div class="before-after">
+      <div class="ba-box ba-before">
+        <div class="ba-label">Current</div>
+        Static contact page with email/phone only. No WhatsApp shortcut despite Indian audience. No estimated response time. No project brief form. High friction for a potential client.
+      </div>
+      <div class="ba-box ba-after">
+        <div class="ba-label">Recommended</div>
+        Sticky floating "Get a quote" button site-wide. Contact page has: a 3-field project brief form (name, product type, timeline), WhatsApp click-to-chat button, Google Maps embed, "Reply within 4 hours" promise, and calendar booking link.
+      </div>
+    </div>
+  </div>
+
+  <div id="pane-roadmap" class="tab-pane">
+    <div class="section-label" style="margin-bottom:16px;">Phased improvement roadmap</div>
+
+    <div class="phase-block">
+      <div class="phase-dot" style="background:var(--color-text-danger)"></div>
+      <div class="phase-title">Phase 1 — Foundation fixes <span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)">(Week 1–2)</span></div>
+      <div class="phase-sub">Technical and structural blockers that are hurting every visitor and every Google crawl right now.</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Migrate to SSR / Next.js — fix the JavaScript-only rendering that blocks SEO</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Add meta tags: unique title, description with city/niche, Open Graph, Twitter cards</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Add schema markup: LocalBusiness, CreativeWork for portfolio items</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Fix Core Web Vitals — lazy-load images, compress assets, use CDN</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Set up 404 page and consistent URL structure</div>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-dot" style="background:var(--color-text-warning)"></div>
+      <div class="phase-title">Phase 2 — Hero & first impression <span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)">(Week 2–3)</span></div>
+      <div class="phase-sub">The homepage above the fold determines whether 70% of visitors stay or leave.</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Write a specific, outcome-driven headline. Replace generic tagline with proof of value.</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Add sticky navigation with "Get a quote" CTA button (contrasting colour)</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Add hero stats strip: "22+ years | 1200+ projects | 500+ brands"</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Place 6–8 top client logos just below the fold for instant social proof</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Feature one standout project as a full-bleed hero background or split layout</div>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-dot" style="background:var(--color-text-warning)"></div>
+      <div class="phase-title">Phase 3 — Portfolio overhaul <span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)">(Week 3–5)</span></div>
+      <div class="phase-sub">The portfolio is the agency's primary sales tool. It must sell silently.</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Create industry filter: All / FMCG / Cosmetics / Pharma / Beverages / Retail</div>
+      <div class="task-row"><span class="badge badge-red" style="font-size:10px">P1</span> Add hover interaction on each project tile (overlay with project name + category)</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Build 5–8 detailed case study pages: Brief → Challenge → Process → Outcome</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Add before/after slider for select projects to dramatise transformation</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Add a "Similar projects" section at the bottom of each case study</div>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-dot" style="background:var(--color-text-info)"></div>
+      <div class="phase-title">Phase 4 — Trust & social proof <span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)">(Week 5–6)</span></div>
+      <div class="phase-sub">For B2B design services, trust is the primary conversion factor.</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Add 5–6 testimonials with photo, name, company, and specific outcome</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Create an awards & recognition section (any industry awards, certifications)</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Add a "Process" page explaining how the agency works (discovery → concepts → delivery)</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Add a Google Reviews widget or embed real ratings</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Add an FAQ section that pre-empts buyer hesitations</div>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-dot" style="background:var(--color-text-success)"></div>
+      <div class="phase-title">Phase 5 — Conversion & contact <span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)">(Week 6–7)</span></div>
+      <div class="phase-sub">Lower the friction of reaching out to near-zero.</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Add floating WhatsApp button — essential for Indian B2B audience</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Redesign contact page: brief project intake form (3–4 fields max)</div>
+      <div class="task-row"><span class="badge badge-amber" style="font-size:10px">P2</span> Add "Typical project timeline" and "What to expect" to reduce pre-sale anxiety</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Add a Calendly or booking link for a discovery call</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Add exit-intent popup with lead magnet (e.g. "Free packaging brief template")</div>
+    </div>
+
+    <div class="phase-block" style="margin-bottom:0">
+      <div class="phase-dot" style="background:var(--color-text-success)"></div>
+      <div class="phase-title">Phase 6 — Content & SEO growth <span style="font-size:12px;font-weight:400;color:var(--color-text-secondary)">(Ongoing)</span></div>
+      <div class="phase-sub">Turn the website into an inbound lead engine over time.</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Launch a blog: "Packaging trends 2026", "How to brief a design agency", etc.</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Industry landing pages: "Packaging design for FMCG brands in India"</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Add city landing pages: Delhi, Mumbai, Bangalore — for local SEO</div>
+      <div class="task-row"><span class="badge badge-green" style="font-size:10px">P3</span> Create a free "Brand audit" or "Packaging brief" downloadable template as lead magnet</div>
+    </div>
+  </div>
+
+  <div id="pane-checklist" class="tab-pane">
+    <div class="section-label" style="margin-bottom:12px;">Design agency website best-practice checklist</div>
+    <div class="card" style="margin-bottom:16px">
+      <div style="font-size:13px;font-weight:500;margin-bottom:12px">Performance & technical</div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Server-side rendering</strong> — content loads without JavaScript dependency</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Core Web Vitals passing</strong> — LCP &lt; 2.5s, FID &lt; 100ms, CLS &lt; 0.1</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Lazy image loading</strong> — especially for portfolio grids</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>WebP / next-gen image formats</strong> — significant file size reduction</div></div>
+      <div class="checklist-item"><div class="check-icon check-yes" aria-hidden="true">✓</div><div><strong>HTTPS enabled</strong> — basic security standard</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Schema.org structured data</strong> — LocalBusiness + portfolio items</div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div style="font-size:13px;font-weight:500;margin-bottom:12px">User experience</div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Clear value proposition in hero</strong> — outcome-focused, not title-focused</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Primary CTA visible on every page</strong> — sticky header "Get a quote" button</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Portfolio filterable by category</strong> — helps clients find relevant work fast</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Case study pages</strong> — brief, challenge, solution, outcome for each project</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Mobile-first design</strong> — 70%+ of Indian traffic is mobile</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>WhatsApp contact shortcut</strong> — standard expectation for Indian SME audiences</div></div>
+      <div class="checklist-item"><div class="check-icon check-yes" aria-hidden="true">✓</div><div><strong>Services clearly listed</strong> — branding, packaging, digital mentioned</div></div>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:500;margin-bottom:12px">Trust & conversion</div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Client logos above the fold</strong> — recognisable brands build instant credibility</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Testimonials with name, photo, company</strong> — verified social proof</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Quantified stats front-and-centre</strong> — "22 years · 1200 projects · 500 brands"</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Project intake / quote form</strong> — low-friction way to start a conversation</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>Response time promise</strong> — "We reply within 4 hours" reduces drop-off</div></div>
+      <div class="checklist-item"><div class="check-icon check-yes" aria-hidden="true">✓</div><div><strong>Contact information present</strong> — phone and email accessible</div></div>
+      <div class="checklist-item"><div class="check-icon check-no" aria-hidden="true">✗</div><div><strong>About page tells the founder story</strong> — personal connection drives B2B trust</div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div style="font-size:12px;color:var(--color-text-tertiary);text-align:center">
+    Analysis based on site metadata, tech stack (React SPA / no SSR), domain category, and India B2B design agency benchmarks.
+    <button onclick="sendPrompt('Can you create a redesigned hero section for xtremedesign.in as an interactive mockup?')" style="display:block;margin:10px auto 0;font-size:12px;padding:6px 16px;cursor:pointer;border-radius:6px">Build a redesigned hero mockup ↗</button>
+  </div>
+
+</div>
+
+<script>
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('pane-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>

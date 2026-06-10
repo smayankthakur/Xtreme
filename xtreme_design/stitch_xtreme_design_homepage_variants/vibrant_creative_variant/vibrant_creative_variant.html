@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .asymmetric-shape {
+            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        }
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-auto-rows: 10px;
+        }
+        .masonry-item {
+            grid-row-end: span 20;
+        }
+        .masonry-item-tall {
+            grid-row-end: span 30;
+        }
+        .text-stroke {
+            -webkit-text-stroke: 1px currentColor;
+            color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-bright": "#393936",
+                      "background": "#131411",
+                      "on-surface": "#e5e2dd",
+                      "outline-variant": "#5b4137",
+                      "on-primary-fixed-variant": "#802a00",
+                      "outline": "#ab897d",
+                      "on-error": "#690005",
+                      "surface-container-high": "#2a2a27",
+                      "surface-container-lowest": "#0e0e0c",
+                      "tertiary-container": "#738aff",
+                      "on-secondary-container": "#b5b3c6",
+                      "on-primary-container": "#521800",
+                      "inverse-surface": "#e5e2dd",
+                      "primary-fixed": "#ffdbce",
+                      "on-secondary": "#2f2f3d",
+                      "primary-container": "#ff5c00",
+                      "on-tertiary-fixed": "#001159",
+                      "on-tertiary": "#00218d",
+                      "surface-container-highest": "#353532",
+                      "on-secondary-fixed-variant": "#464555",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-fixed": "#370e00",
+                      "on-tertiary-fixed-variant": "#0332c3",
+                      "surface-container-low": "#1c1c19",
+                      "on-background": "#e5e2dd",
+                      "on-primary": "#5a1b00",
+                      "surface-variant": "#353532",
+                      "inverse-on-surface": "#31302d",
+                      "primary": "#ffb59a",
+                      "on-secondary-fixed": "#1a1a28",
+                      "on-surface-variant": "#e4beb1",
+                      "on-tertiary-container": "#001d81",
+                      "surface-tint": "#ffb59a",
+                      "error-container": "#93000a",
+                      "surface": "#131411",
+                      "surface-container": "#20201d",
+                      "tertiary-fixed": "#dee1ff",
+                      "tertiary": "#bac3ff",
+                      "secondary-fixed-dim": "#c7c4d7",
+                      "secondary-fixed": "#e3e0f4",
+                      "inverse-primary": "#a73a00",
+                      "secondary-container": "#464555",
+                      "error": "#ffb4ab",
+                      "secondary": "#c7c4d7",
+                      "surface-dim": "#131411",
+                      "primary-fixed-dim": "#ffb59a",
+                      "tertiary-fixed-dim": "#bac3ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "unit": "8px",
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "container-max": "1440px",
+                      "section-gap": "120px"
+              },
+              "fontFamily": {
+                      "quote-text": ["EB Garamond"],
+                      "headline-lg": ["EB Garamond"],
+                      "headline-lg-mobile": ["EB Garamond"],
+                      "display-xl": ["EB Garamond"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "display-xl-mobile": ["EB Garamond"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "quote-text": ["32px", {"lineHeight": "44px", "fontWeight": "400"}],
+                      "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                      "display-xl": ["80px", {"lineHeight": "88px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-xl-mobile": ["48px", {"lineHeight": "52px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Navigation Shell -->
+<nav class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md flex justify-between items-center px-margin-desktop h-20 w-full z-50 docked full-width top-0 sticky border-b border-outline-variant shadow-sm">
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Xtreme Design</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Work</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Services</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Contact</a>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label-caps text-label-caps py-3 px-6 rounded-lg hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform">
+            Get a Quote
+        </button>
+</nav>
+<!-- Hero Section -->
+<header class="relative min-h-[921px] flex items-center overflow-hidden px-margin-desktop py-section-gap">
+<div class="absolute inset-0 z-0">
+
+</div>
+<div class="relative z-10 max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-8">
+<span class="font-label-caps text-label-caps text-primary-container tracking-[0.2em] mb-4 block">PREMIUM BRANDING &amp; PACKAGING</span>
+<h1 class="font-display-xl text-display-xl md:text-display-xl text-on-surface mb-8">
+                    Creative Packaging That <span class="italic text-primary">Defines</span> Brands
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-12">
+                    We craft tactile narratives for India's most iconic FMCG brands, merging artisanal heritage with modern consumer psychology.
+                </p>
+<div class="flex gap-4">
+<button class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-8 py-4 rounded-full flex items-center gap-2 group transition-all hover:pr-10">
+                        Explore Our Work
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="border border-outline text-on-surface font-label-caps text-label-caps px-8 py-4 rounded-full hover:bg-surface-container transition-colors">
+                        Our Process
+                    </button>
+</div>
+</div>
+</div>
+<!-- Abstract Product Shapes -->
+<div class="absolute right-[-5%] top-1/2 -translate-y-1/2 w-1/2 h-[80%] hidden lg:block">
+<div class="relative w-full h-full">
+<!-- Abstract Color Blocks -->
+<div class="absolute top-10 right-10 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl animate-pulse"></div>
+<div class="absolute bottom-20 left-0 w-80 h-96 bg-tertiary-container/10 asymmetric-shape backdrop-blur-sm border border-outline/20"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative w-[500px] h-[600px] rounded-xl overflow-hidden shadow-2xl border-4 border-white/5 transform rotate-3">
+<img class="w-full h-full object-cover" data-alt="A high-end product photography shot of a sleek, minimalist beverage container sitting in a professional studio setup. The lighting is dramatic and directional, casting soft shadows against a warm off-white and bold magenta abstract background. The scene is clean, modern, and highlights the premium textures of the matte packaging substrate. The overall aesthetic is vibrant and creative, typical of a top-tier Indian branding agency's portfolio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB49ccOnbCkqhLYflt0ccQiYwjKyS6EVdt4-SvSSfH1Qi1UZ8-yY9NDXWbGiPQAl5B2rWSjo-w756Nz9tqfKLFGCWvIvxPDpVx0pbCRLO1ZPnbhiNlo57tTPkUNvhPrbvdnXkezWOja7FLzrYBKSJdpXIj15z8PLFvs0p3Sq5EIBz9zB510XzWHA6vUPbWZYfgHij3usYmzWFGEqeHZLwc-VSl5gfAs9hTrGIzfOBINCGtdCmUHe3Y8TfnL_zormqkJIhO9EzqUIB8"/>
+<div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
+<span class="font-label-caps text-label-caps text-primary">PROJECT ALPHA</span>
+<h3 class="font-headline-md text-headline-md text-white">Bira 91 Limited Edition</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Stats Strip -->
+<section class="border-y border-outline-variant py-16 bg-surface-container-lowest">
+<div class="px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-gutter text-center">
+<div class="flex flex-col gap-2">
+<span class="font-headline-lg text-headline-lg text-primary">150+</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Brands Launched</span>
+</div>
+<div class="flex flex-col gap-2 border-l border-outline-variant">
+<span class="font-headline-lg text-headline-lg text-primary">12</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Global Awards</span>
+</div>
+<div class="flex flex-col gap-2 border-l border-outline-variant">
+<span class="font-headline-lg text-headline-lg text-primary">40%</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Market Growth</span>
+</div>
+<div class="flex flex-col gap-2 border-l border-outline-variant">
+<span class="font-headline-lg text-headline-lg text-primary">24/7</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Creative Support</span>
+</div>
+</div>
+</section>
+<!-- Portfolio Masonry Grid -->
+<section class="py-section-gap px-margin-desktop bg-background">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+<div class="max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-6">Our Creative Alchemy</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">From the playful nostalgia of Paper Boat to the disruptive energy of Bira 91, we redefine how products speak to the Indian soul.</p>
+</div>
+<div class="flex gap-4 mb-4">
+<button class="font-label-caps text-label-caps px-4 py-2 text-primary border-b-2 border-primary">All Projects</button>
+<button class="font-label-caps text-label-caps px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">FMCG</button>
+<button class="font-label-caps text-label-caps px-4 py-2 text-on-surface-variant hover:text-on-surface transition-colors">Luxury</button>
+</div>
+</div>
+<div class="masonry-grid gap-gutter">
+<!-- Portfolio Item 1 -->
+<div class="masonry-item group relative overflow-hidden rounded-xl bg-surface-container-high transition-transform duration-500 hover:-translate-y-2">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A luxury cosmetic bottle with gold foil detailing and matte black finish. The product is placed on a rough granite surface with soft, warm lighting that emphasizes its premium texture. The image is styled for a high-fashion editorial look, using deep blacks and rich golden highlights to evoke a sense of exclusivity and sophisticated Indian branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPD7njpVMWlYO5ywOOKAD6ZrtEVO0LMLlMG0Pw9Uqtpdaeaw8u-tkOdEcA54QfDPCUvfQYz2yVNYITRyoG6L2DA6cPdwLxO7_rEfA5EvoMe_mB1NgWlH-eiCFCmoeYFfI4YDnMPjmYxK8H-Lpyee7YS9jxIkQG7GrvS2Z-IaPhFklhjkQigRdbcnsff43wUJhm8F3t8TGU6jELArTA6VK9bYb0rF2Oj79S765fqbOeuS8ZiMMLuO1u37x3E0jZJmRSLdIFA6goeR8"/>
+<div class="absolute inset-0 bg-primary-container/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+<span class="font-label-caps text-label-caps text-on-primary-container">350GSM MATTE CARDBOARD</span>
+<h4 class="font-headline-md text-headline-md text-on-primary-container mb-2">Epigamia Greek Yogurt</h4>
+<p class="font-body-md text-body-md text-on-primary-container/80">Minimalist structural overhaul for a modern classic.</p>
+</div>
+</div>
+<!-- Portfolio Item 2 -->
+<div class="masonry-item-tall group relative overflow-hidden rounded-xl bg-surface-container-high transition-transform duration-500 hover:-translate-y-2">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Modern Indian beverage packaging showcasing vibrant, illustrated patterns and bold typography. The design incorporates traditional Indian motifs reimagined through a contemporary lens. The lighting is bright and cheerful, highlighting the energetic coral and magenta color palette. The scene is presented in a high-key, modern light-mode studio environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM3Ak3lfBMuu7EfN8burgyjJaE1G5D8Mq0dnwRdOybC-DfJ9H89AjXygUEaqt7eb0kBqQMRiQmzVvH7-y2YL1EsIFZ3_17ntYcabWMu1MYKWSqRZH0Of7I9J_x4SF_zkm0kod_0t8qnPpWAXSaWQvsWV1Mmr0jUtuAFSj_tHE8rUv9B2fUpSTfnLTbgK7UJoqS75UmvT0U0uhPJeqQw8uOcMuS3NBGaXZ3hIE7Jb-7vJ2quzatZ7v82cBcciDJACHb1ZW4JXCNNc8"/>
+<div class="absolute inset-0 bg-tertiary-container/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+<span class="font-label-caps text-label-caps text-on-tertiary-container">SUSTAINABLE PET-G</span>
+<h4 class="font-headline-md text-headline-md text-on-tertiary-container mb-2">Paper Boat Memories</h4>
+<p class="font-body-md text-body-md text-on-tertiary-container/80">Nostalgic storytelling through tactile pouch design.</p>
+</div>
+</div>
+<!-- Portfolio Item 3 -->
+<div class="masonry-item group relative overflow-hidden rounded-xl bg-surface-container-high transition-transform duration-500 hover:-translate-y-2">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="A collection of artisanal coffee packaging bags with complex, screen-printed textures and hand-drawn typography. The bags are arranged in a dynamic, overlapping composition against a neutral, warm off-white background. The lighting is soft and ambient, creating a natural and approachable vibe that reflects craft and quality in Indian product design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuOpLYaNI8v7_bMKqQAT6MV19C2HM3MsoI0GRuOT7xaMMWzJKUVG_YRn5h09_YWPzj5RWN5NwP4IvDtmAG5VVdofOy4jtTDFOq5LwvoDd11NaqYckKulRLxi5hujSTAuFtORADD-LoE6OSVedm7OhuMphpGILCCYd-Q1KdK9fV5mafC77edjoT9alQFXvVioig4SddGcmjCFIQxr295R5KvSPMQ1iF3Xyp8DtBgo8_K7UmNLUm0KW-q8KK_cWf6cOTjUJ-qPTnDRg"/>
+<div class="absolute inset-0 bg-secondary-container/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+<span class="font-label-caps text-label-caps text-on-secondary-container">RECYCLED CRAFT PAPER</span>
+<h4 class="font-headline-md text-headline-md text-on-secondary-container mb-2">Artisanal Coffee Roasters</h4>
+<p class="font-body-md text-body-md text-on-secondary-container/80">Small batch identity for premium global exports.</p>
+</div>
+</div>
+<!-- Portfolio Item 4 -->
+<div class="masonry-item-tall group relative overflow-hidden rounded-xl bg-surface-container-high transition-transform duration-500 hover:-translate-y-2">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Close-up of a high-tech electronics package with metallic silver embossing and holographic details. The packaging reflects a spectrum of vibrant colors including magenta and deep blues. The camera angle is sharp and modern, highlighting the technical precision and futuristic aesthetic of the brand identity. The lighting is crisp and sterile, emphasizing clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUmCMvferO9Vut1MXtMTv-GhC7k7IOonohpyueakR8bf_lAPURvfWIQVYSCTKSgD_HehkJkiQYIuTlSz2HPkPjkXixBuxekpNzOUjxFp3XkVI91xMEcTj5SZE5Xb0AuGUiYAxiznS7tX1mPR_aBIoXaEcJsTmZ3C7sdUJE8wq-o52THXjdkCkaKxNfbKmbDpvsVjlwXbyB_4mXy2X5TLnz8-JmZfs_cW-PdOC69_suwa9begY_AotX4G5SfVPHt0a9D7bGX5D_CdM"/>
+<div class="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+<span class="font-label-caps text-label-caps text-on-primary-container">METALLIC FOIL PRINT</span>
+<h4 class="font-headline-md text-headline-md text-on-primary-container mb-2">X-Tech Accessories</h4>
+<p class="font-body-md text-body-md text-on-primary-container/80">High-performance tech branding for the digital age.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial Block -->
+<section class="py-section-gap px-margin-desktop bg-surface-container-low overflow-hidden relative">
+<div class="absolute -top-24 -left-24 text-[240px] font-display-xl opacity-5 text-on-surface leading-none">“</div>
+<div class="max-w-4xl mx-auto text-center relative z-10">
+<p class="font-quote-text text-quote-text text-on-surface mb-10 leading-relaxed italic">
+                "Xtreme Design didn't just design our packaging; they gave our brand a heartbeat. The response from the market has been nothing short of explosive since the relaunch."
+            </p>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-[2px] bg-primary mb-4"></div>
+<span class="font-label-caps text-label-caps text-on-surface tracking-[0.2em] uppercase">Vikram Malhotra</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Marketing Director, Bira 91</span>
+</div>
+</div>
+</section>
+<!-- Quote CTA Strip -->
+<section class="bg-primary-container py-20 px-margin-desktop">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+<h2 class="font-headline-md text-headline-md text-on-primary-container text-center md:text-left">
+                Ready to transform your brand into a market leader?
+            </h2>
+<button class="bg-on-primary-container text-primary-container font-headline-md text-headline-md px-12 py-6 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xl">
+                Get Your Quote
+            </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant py-section-gap px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter max-w-container-max mx-auto">
+<div class="flex flex-col gap-6">
+<div class="font-headline-md text-headline-md text-on-surface font-bold">Xtreme Design</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Mumbai's leading agency for brands that want to be seen, felt, and remembered.</p>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-primary uppercase">Quick Links</span>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Portfolio</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Design Process</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Sustainability</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Client Login</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-primary uppercase">Contact</span>
+<p class="text-on-surface-variant font-body-md">102, Creative Hub, Lower Parel, Mumbai, MH 400013</p>
+<p class="text-on-surface-variant font-body-md">hello@xtremedesign.com</p>
+<p class="text-on-surface-variant font-body-md">+91 22 4567 8901</p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-primary uppercase">Compliance</span>
+<div class="flex flex-wrap gap-2">
+<span class="border border-outline px-2 py-1 text-[10px] text-on-surface-variant font-label-caps">FSSAI REGISTERED</span>
+<span class="border border-outline px-2 py-1 text-[10px] text-on-surface-variant font-label-caps">MAKE IN INDIA</span>
+</div>
+</div>
+</div>
+<div class="mt-20 pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-on-surface-variant text-body-md">© 2024 Xtreme Design Agency. All Rights Reserved.</p>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+<!-- Side Navigation / WhatsApp FAB -->
+<div class="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-4">
+<div class="bg-surface/80 backdrop-blur-lg px-4 py-2 rounded-lg border border-outline/20 shadow-xl scale-0 origin-bottom-right transition-transform mb-2" id="whatsapp-tooltip">
+<p class="font-label-caps text-label-caps text-on-surface">Chat with us</p>
+</div>
+<button class="bg-tertiary-container text-on-tertiary-container p-4 rounded-full shadow-xl hover:scale-110 transition-transform animate-bounce" onmouseout="document.getElementById('whatsapp-tooltip').classList.remove('scale-100')" onmouseover="document.getElementById('whatsapp-tooltip').classList.add('scale-100')">
+<span class="material-symbols-outlined text-[32px]">chat</span>
+</button>
+</div>
+<script>
+        // Simple micro-interaction for scroll reveals
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.masonry-item, .masonry-item-tall').forEach(el => {
+            el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

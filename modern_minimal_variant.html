@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Xtreme Design | 22 Years of Design Excellence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Hanken+Grotesk:wght@400;700&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@100..900&family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for editorial feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #131411; }
+        ::-webkit-scrollbar-thumb { background: #353532; }
+        
+        .editorial-grid-line {
+            position: absolute;
+            background-color: rgba(171, 137, 125, 0.1);
+            pointer-events: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-bright": "#393936",
+                      "background": "#131411",
+                      "on-surface": "#e5e2dd",
+                      "outline-variant": "#5b4137",
+                      "on-primary-fixed-variant": "#802a00",
+                      "outline": "#ab897d",
+                      "on-error": "#690005",
+                      "surface-container-high": "#2a2a27",
+                      "surface-container-lowest": "#0e0e0c",
+                      "tertiary-container": "#738aff",
+                      "on-secondary-container": "#b5b3c6",
+                      "on-primary-container": "#521800",
+                      "inverse-surface": "#e5e2dd",
+                      "primary-fixed": "#ffdbce",
+                      "on-secondary": "#2f2f3d",
+                      "primary-container": "#ff5c00",
+                      "on-tertiary-fixed": "#001159",
+                      "on-tertiary": "#00218d",
+                      "surface-container-highest": "#353532",
+                      "on-secondary-fixed-variant": "#464555",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-fixed": "#370e00",
+                      "on-tertiary-fixed-variant": "#0332c3",
+                      "surface-container-low": "#1c1c19",
+                      "on-background": "#e5e2dd",
+                      "on-primary": "#5a1b00",
+                      "surface-variant": "#353532",
+                      "inverse-on-surface": "#31302d",
+                      "primary": "#ffb59a",
+                      "on-secondary-fixed": "#1a1a28",
+                      "on-surface-variant": "#e4beb1",
+                      "on-tertiary-container": "#001d81",
+                      "surface-tint": "#ffb59a",
+                      "error-container": "#93000a",
+                      "surface": "#131411",
+                      "surface-container": "#20201d",
+                      "tertiary-fixed": "#dee1ff",
+                      "tertiary": "#bac3ff",
+                      "secondary-fixed-dim": "#c7c4d7",
+                      "secondary-fixed": "#e3e0f4",
+                      "inverse-primary": "#a73a00",
+                      "secondary-container": "#464555",
+                      "error": "#ffb4ab",
+                      "secondary": "#c7c4d7",
+                      "surface-dim": "#131411",
+                      "primary-fixed-dim": "#ffb59a",
+                      "tertiary-fixed-dim": "#bac3ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "20px",
+                      "unit": "8px",
+                      "margin-desktop": "64px",
+                      "gutter": "24px",
+                      "container-max": "1440px",
+                      "section-gap": "120px"
+              },
+              "fontFamily": {
+                      "quote-text": ["EB Garamond"],
+                      "headline-lg": ["EB Garamond"],
+                      "headline-lg-mobile": ["EB Garamond"],
+                      "display-xl": ["EB Garamond"],
+                      "body-lg": ["Hanken Grotesk"],
+                      "body-md": ["Hanken Grotesk"],
+                      "display-xl-mobile": ["EB Garamond"],
+                      "label-caps": ["JetBrains Mono"],
+                      "headline-md": ["Hanken Grotesk"]
+              },
+              "fontSize": {
+                      "quote-text": ["32px", {"lineHeight": "44px", "fontWeight": "400"}],
+                      "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "500"}],
+                      "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                      "display-xl": ["80px", {"lineHeight": "88px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-xl-mobile": ["48px", {"lineHeight": "52px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 w-full z-50 docked full-width top-0 sticky border-b border-outline-variant shadow-sm transition-all duration-300">
+<div class="flex items-center gap-4">
+<button aria-label="Menu" class="md:hidden text-on-surface p-2 transition-transform active:scale-95">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<a class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter" href="/">Xtreme Design</a>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Work</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Services</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Contact</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container px-6 py-2.5 rounded font-label-caps text-label-caps font-bold hover:opacity-80 transition-all scale-95 active:scale-90 shadow-sm">
+            Get a Quote
+        </button>
+</header>
+<main class="relative">
+<!-- Hero Section: Ultra-minimal Typographic -->
+<section class="min-h-[819px] flex flex-col justify-center px-margin-mobile md:px-margin-desktop py-section-gap max-w-container-max mx-auto overflow-hidden">
+<div class="max-w-4xl">
+<p class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-6 opacity-0 translate-y-4 transition-all duration-700 delay-100 ease-out" id="hero-reveal-1">
+                    ESTABLISHED 2002
+                </p>
+<h1 class="font-display-xl text-display-xl-mobile md:text-display-xl text-on-surface mb-12 opacity-0 translate-y-8 transition-all duration-1000 delay-300 ease-out leading-[1.1]" id="hero-reveal-2">
+                    22 Years of Design Excellence.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-16 opacity-0 translate-y-4 transition-all duration-700 delay-500 ease-out" id="hero-reveal-3">
+                    We sculpt identities for India's most iconic brands, bridging the gap between heritage and modern FMCG disruption.
+                </p>
+</div>
+<!-- Hero Image Grid: 3 Thumbnails -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-8 opacity-0 translate-y-8 transition-all duration-1000 delay-700 ease-out" id="hero-reveal-4">
+<div class="aspect-[4/5] bg-surface-container relative overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A premium packaging design for a luxury tea brand featuring intricate gold foil patterns on a deep matte forest green box, captured in a high-end studio setting with soft side lighting and a minimalist dark background. The aesthetic is sophisticated, reflecting a modern editorial style with high contrast and precise details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSrdFtRNm9tEJjF0226dUL_bf1QcbTEth325MbZPMHNXNY6ylUAecDNMmpJrf_babA3j2irobP2VOYfHf4gxIyKZkZZ9z0Z9MpvqBjLsglYv_tABusuyjqcaf_G5Yo9VO2KxGUl2XgHeMDwKBH8QfLidJYh3MDGM5NVJLMNLPLHJqueEnxBUKa7N3Vy81HDB4_pvf-T8d6rLxWmQcLFd8Ad1UTuZkldhlBCczWXb8fzNSJcNazJMA8pG70fmiWeL7U6TRoZj8VaXc"/>
+<div class="absolute bottom-4 left-4">
+<span class="font-label-caps text-label-caps bg-background/60 backdrop-blur-md px-3 py-1 border border-outline-variant/30">TATA CONSUMER</span>
+</div>
+</div>
+<div class="aspect-[4/5] bg-surface-container relative overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Modern dairy product packaging mockup showcasing a clean, minimalist white bottle with a bold, contemporary typographic layout in deep blue and orange accents. The lighting is bright and airy, creating a professional B2B appearance that emphasizes purity and high-quality industrial design for Mother Dairy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZQAIUYgTfPHxEjRamxeLygx-LdwBQAtP1bn8sgSL9IwBfpTV_JTGyVoWH39w_gxDApSFvFhQS0clKCH7UvSpGjfjbtFsD9c43Ff2LebBHASQb5yaaFm8wEByKgFuUZJPdUqREh1moGitQ0t6M2oRBN8U2KlXgtn8rJGD1VVTNxkC3H5CtZ93l4EN33Ob5yurb7hwP5PnAz-e56SFBtP1N8xmahhUg7PMbUI4Q93_uTBekMPMrw_nWJjbPe_btvTM5Hy7iR9rM2T0"/>
+<div class="absolute bottom-4 left-4">
+<span class="font-label-caps text-label-caps bg-background/60 backdrop-blur-md px-3 py-1 border border-outline-variant/30">MOTHER DAIRY</span>
+</div>
+</div>
+<div class="aspect-[4/5] bg-surface-container relative overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Innovative snack packaging for Amul featuring vibrant cultural motifs integrated with a sleek, futuristic metallic finish. The image is a close-up that highlights the substrate texture and the rich pigment of the brand's secondary colors under dramatic, focused spotlighting in a dark gallery space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiW7p-_bIAcx4yzWHbkl7IRk6gIpsGtSCLRKLmwiWT9aQUCTI1jCzoWJTBci7NRD74wtV-jb1BNQmeuVEJIB830MokjP1DZMGiaUiZYqyUusO00-53ciBc-LWk2VBC3tUwCuD4Piy-7wtudKKG9iVLkI2Z3VnVMHUQtEs6PvuagDTJJM73PJ71lGLNQ8SmMxnM3ieGB8HlGtuWKTndSvK7lllrNWjJAv17XIOg-urwmUlIvVMPhnEQysy1d6qEV-aWe36aDLqYRbY"/>
+<div class="absolute bottom-4 left-4">
+<span class="font-label-caps text-label-caps bg-background/60 backdrop-blur-md px-3 py-1 border border-outline-variant/30">AMUL INDIA</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Strip -->
+<section class="border-y border-outline-variant py-12 px-margin-mobile md:px-margin-desktop bg-surface-container-low">
+<div class="max-w-container-max mx-auto grid grid-cols-2 md:grid-cols-4 gap-gutter text-center">
+<div class="flex flex-col gap-2">
+<span class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">450+</span>
+<span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest">Brands Launched</span>
+</div>
+<div class="flex flex-col gap-2 border-l border-outline-variant/30">
+<span class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">22</span>
+<span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest">Years Experience</span>
+</div>
+<div class="flex flex-col gap-2 border-l border-outline-variant/30">
+<span class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">150+</span>
+<span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest">Design Awards</span>
+</div>
+<div class="flex flex-col gap-2 border-l border-outline-variant/30">
+<span class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">12</span>
+<span class="font-body-md text-body-md text-on-surface-variant uppercase tracking-widest">Global Offices</span>
+</div>
+</div>
+</section>
+<!-- Bento Portfolio Grid -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-4 italic">Portfolio Selects</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">A curated exhibition of our recent works across the FMCG and luxury landscape.</p>
+</div>
+<a class="font-label-caps text-label-caps text-primary border-b border-primary pb-1 hover:opacity-70 transition-opacity" href="#">VIEW ALL CASE STUDIES</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter h-full">
+<!-- Large Featured Item -->
+<div class="md:col-span-8 md:row-span-2 group relative bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Large-scale display of various packaging mockups for a premium cosmetics brand, featuring sleek black glass jars and white cardboard boxes with minimalist typography. The setting is a bright, high-key studio with soft shadows and a pristine, architectural feel that emphasizes product symmetry and material quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIuf1K7M24uzQJhPLot_IozRoauAW11PVGn73zWjbmAVN67Q5BToLtGoPDbuMKWVqXp-c0ZDJR2G-VHqHECjrsCeht_2Mb_1INYZQGZcLAPguFibeMuRQ2H52KsVxnPM0k2dNdY2y9SYhv44sQrOad1niigPcB3ZsKUXZvSpQMouzchur7y7xFATB2UYPbC_ijnFBeQPFjPNI1IBnv5DFZzy_5rB17nuvtkshTfHUuWunZANL8A-3TEbLgDIMZiAWA2eyg-C1IH5g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+<span class="font-label-caps text-label-caps text-primary mb-2">PACKAGING & IDENTITY</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">The Ritual Collection</h3>
+</div>
+</div>
+<!-- Secondary Items -->
+<div class="md:col-span-4 group relative bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Close-up of a beverage label design for a high-end sparkling water brand, featuring metallic silver embossing and elegant serif typography on a textured paper substrate. The lighting is moody and focused, highlighting the tactile quality of the print finish and the premium brand positioning." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7heEqgxUogiq9zcspu4CxpkBDa-CauBUqlL6_xRQCjMqjWMr568tzlpGCTcoZnlAMHh9sBVnKusek1zoDvdpAY2Npi65KqEQ7sB3_jIEl1O36c8ceoWNGgNJLhpeNwJtALMqzp9jsJviQ7mZcev2XOgEBcDBwvD_qgfdhj-YmOIhX1fp7r4Uflzy6ylKYHQDNLpHsZ_j-INC_OCX-jVZ3SL4S-l2JDjjUYKm8OrArQsaxuiDULi07unMVH6OASUuMDv28Tsn2C64"/>
+<div class="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<span class="font-label-caps text-label-caps text-on-surface border border-on-surface px-4 py-2">VIEW CASE</span>
+</div>
+</div>
+<div class="md:col-span-4 group relative bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" data-alt="Sustainable packaging prototype made from recycled pulp materials, showing a raw and organic texture with clean black ink printing. The design is modern and functional, set against an off-white background with natural sunlight casting soft, long shadows to evoke an eco-friendly and premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN4slWZy-xeWiIwGrtJdl1CiSDASRIMkK1ryTI4EYPC9HEBJ_7ajG_O2f__P-XEZF761h6ed5LNvf5lA8qSTEMJHg97iHb6mMLcw_SGQQoxaRZVHNTT5-LsOEMqAtFV7z2u2KgJzjyTU_tnJTXOwdt6i8G5fHeV14qQ2VrO88FVvP5vseOiDMa2WB5c65nB3KfE9RB-7L5PiN286PcKRZlPZJVkAeyLIHTAz7RXrJWxHZ3kdgX1bj89XdCx0HOkVMDhLqBNjbB4bI"/>
+<div class="absolute inset-0 bg-background/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+<span class="font-label-caps text-label-caps text-on-surface border border-on-surface px-4 py-2">VIEW CASE</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-highest/50">
+<div class="max-w-4xl mx-auto text-center">
+<span class="material-symbols-outlined text-primary text-5xl mb-8" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<blockquote class="font-quote-text text-quote-text text-on-surface mb-10 leading-relaxed italic">
+                    "Xtreme Design didn't just redesign our packaging; they redefined how our heritage brand speaks to the next generation of Indian consumers. Their precision and editorial vision are unmatched."
+                </blockquote>
+<div class="flex flex-col items-center gap-2">
+<div class="w-12 h-12 rounded-full bg-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of a professional marketing director in a clean, modern office setting with soft natural lighting. He is wearing a minimalist dark blazer, representing the sophisticated and authoritative target audience of a high-end branding agency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfqImb7xLyf3CnlWPVSiJgGrTcwUJHx0Tx5g8KNBImG5hH9fUPYm3tPw_HZA_7haTMFxOj8RyUxI16f2T6LT0dwxS6g2RDMlFKF1eHEgTqhib48Pm-kGMGD6c5rOdcnDYE8bvWI49FqjX3L9BD5Thfp9VPv13svbAxbAPJUZlSZAGKmqvVe4BgWE9gzESh5da1FKcLoTw9CJsBtcWoyKHb8Rkhbs06Qiv75N3PFXqJK1Sb0An0UdJfsk5hiJO38isQ3k7UFAZ99Ds"/>
+</div>
+<span class="font-label-caps text-label-caps text-primary tracking-widest">RAHUL SHARMA</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Marketing Director, Tata Consumer Products</span>
+</div>
+</div>
+</section>
+<!-- Final CTA Strip -->
+<section class="bg-primary-container py-24 px-margin-mobile md:px-margin-desktop text-center relative overflow-hidden group">
+<div class="relative z-10">
+<h2 class="font-display-xl text-display-xl-mobile md:text-headline-lg text-on-primary-container mb-8 font-bold">Ready to build your icon?</h2>
+<button class="bg-on-primary-container text-primary-container px-12 py-5 font-label-caps text-label-caps font-bold hover:bg-on-primary-container/90 transition-all transform hover:-translate-y-1 active:scale-95 shadow-xl">
+                    REQUEST A CONSULTATION
+                </button>
+</div>
+<!-- Decorative Background Element -->
+<div class="absolute -right-20 -bottom-20 text-[20rem] font-bold text-on-primary-container/5 select-none pointer-events-none transform rotate-12 group-hover:rotate-6 transition-transform duration-1000">
+                XTREME
+            </div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="md:col-span-1">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold mb-6">Xtreme Design</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+                    Leading the Indian branding landscape with strategic design and editorial precision since 2002.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2 opacity-50">SERVICES</h3>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Brand Strategy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Packaging Design</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Visual Identity</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Retail Environments</a>
+</div>
+<div class="flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2 opacity-50">COMPANY</h3>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Careers</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Contact Us</a>
+</div>
+<div class="flex flex-col gap-4">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-2 opacity-50">CONNECT</h3>
+<div class="flex gap-4">
+<a class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</a>
+<a class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</a>
+<a class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:bg-primary-container hover:text-on-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">camera</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/10 px-margin-mobile md:px-margin-desktop py-8 text-center md:text-left max-w-container-max mx-auto">
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-40">
+                © 2024 Xtreme Design Agency. All Rights Reserved.
+            </p>
+</div>
+</footer>
+<!-- WhatsApp FAB (SideNavBar Implementation) -->
+<div class="fixed bottom-8 right-8 z-50">
+<div class="flex flex-col items-end gap-4 group">
+<!-- Tooltip -->
+<div class="bg-surface/80 backdrop-blur-lg border border-outline-variant p-4 shadow-xl mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none min-w-[200px]">
+<p class="font-headline-md text-[16px] text-on-surface font-bold">Chat with us</p>
+<p class="font-body-md text-[12px] text-on-surface-variant mb-4">Expert Branding Support</p>
+<button class="w-full bg-tertiary-container text-on-tertiary-container py-2 text-label-caps font-bold hover:opacity-80 transition-opacity">MESSAGE NOW</button>
+</div>
+<!-- FAB Icon -->
+<button class="bg-tertiary-container text-on-tertiary-container w-16 h-16 rounded-full flex items-center justify-center shadow-2xl animate-bounce hover:scale-110 transition-transform active:scale-95 group-hover:animate-none">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">chat</span>
+</button>
+</div>
+</div>
+<script>
+        // Hero Reveal Animation on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const reveals = ['hero-reveal-1', 'hero-reveal-2', 'hero-reveal-3', 'hero-reveal-4'];
+            reveals.forEach((id) => {
+                document.getElementById(id).classList.remove('opacity-0', 'translate-y-4', 'translate-y-8');
+            });
+        });
+
+        // Simple Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        // Add reveal classes to specific sections
+        document.querySelectorAll('section').forEach(section => {
+            if(!section.id?.startsWith('hero')) {
+               section.classList.add('transition-all', 'duration-1000', 'ease-out');
+            }
+        });
+
+        // Header scroll behavior
+        let lastScroll = 0;
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
+                header.classList.add('h-16', 'bg-surface/95');
+                header.classList.remove('h-20');
+            } else {
+                header.classList.remove('h-16', 'bg-surface/95');
+                header.classList.add('h-20');
+            }
+            lastScroll = currentScroll;
+        });
+    </script>
+</body></html>

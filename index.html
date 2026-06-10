@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>xtremedesign.in — UI/UX Audit Report</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+rel="stylesheet"
+/>
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Hanken Grotesk', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace']
+      }
+    }
+  }
+}
+</script>
+
+<style type="text/tailwindcss">
+
+@layer base {
+
+:root {
+
+  /* Backgrounds */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f8fafc;
+  --color-background-tertiary: #f1f5f9;
+
+  /* Text */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+
+  /* Borders */
+  --color-border-secondary: #cbd5e1;
+  --color-border-tertiary: #e2e8f0;
+
+  /* Success */
+  --color-background-success: #ecfdf5;
+  --color-text-success: #047857;
+
+  /* Danger */
+  --color-background-danger: #fef2f2;
+  --color-text-danger: #b91c1c;
+
+  /* Warning */
+  --color-background-warning: #fffbeb;
+  --color-text-warning: #b45309;
+
+  /* Info */
+  --color-background-info: #eff6ff;
+  --color-text-info: #1d4ed8;
+
+  --border-radius-md: 0.75rem;
+  --border-radius-lg: 1rem;
+}
+
+.dark {
+
+  /* Slate-based dark theme */
+  --color-background-primary: #0f172a;
+  --color-background-secondary: #1e293b;
+  --color-background-tertiary: #334155;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+
+  --color-border-secondary: #475569;
+  --color-border-tertiary: #334155;
+
+  --color-background-success: #052e16;
+  --color-text-success: #6ee7b7;
+
+  --color-background-danger: #450a0a;
+  --color-text-danger: #fca5a5;
+
+  --color-background-warning: #451a03;
+  --color-text-warning: #fcd34d;
+
+  --color-background-info: #172554;
+  --color-text-info: #93c5fd;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-sans antialiased;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+}
+
+}
+
+@layer components {
+
+.report {
+  @apply max-w-7xl mx-auto px-4 md:px-8 py-8;
+}
+
+.audit-header {
+  @apply mb-8;
+}
+
+.section-label {
+  @apply uppercase tracking-[0.18em] text-xs font-semibold mb-2;
+  color: var(--color-text-tertiary);
+}
+
+.page-title {
+  @apply text-3xl md:text-4xl font-extrabold;
+}
+
+.page-subtitle {
+  @apply mt-2 text-sm md:text-base;
+  color: var(--color-text-secondary);
+}
+
+/* Cards */
+
+.card {
+  @apply rounded-2xl p-5 border backdrop-blur-sm;
+  background: var(--color-background-primary);
+  border-color: var(--color-border-tertiary);
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.08);
+}
+
+.metric-card {
+  @apply rounded-2xl p-5 border relative overflow-hidden;
+  border-color: var(--color-border-tertiary);
+  background:
+  linear-gradient(
+    135deg,
+    var(--color-background-secondary),
+    var(--color-background-primary)
+  );
+  box-shadow:
+  0 12px 32px rgba(0,0,0,.12);
+}
+
+.metric-card::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(
+    circle at top right,
+    rgba(255,255,255,.06),
+    transparent 40%
+  );
+}
+
+.metric-label {
+  @apply text-sm;
+  color: var(--color-text-secondary);
+}
+
+.metric-val {
+  @apply text-4xl font-extrabold mt-2;
+}
+
+/* Badges */
+
+.badge {
+  @apply inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.badge-red {
+  background: var(--color-background-danger);
+  color: var(--color-text-danger);
+}
+
+.badge-amber {
+  background: var(--color-background-warning);
+  color: var(--color-text-warning);
+}
+
+.badge-green {
+  background: var(--color-background-success);
+  color: var(--color-text-success);
+}
+
+.badge-blue {
+  background: var(--color-background-info);
+  color: var(--color-text-info);
+}
+
+/* Tabs */
+
+.tab-nav {
+  @apply flex flex-wrap gap-2 border-b pb-3 mb-8;
+  border-color: var(--color-border-tertiary);
+}
+
+.tab-btn {
+  @apply px-4 py-2 rounded-xl text-sm transition-all duration-200;
+  color: var(--color-text-secondary);
+}
+
+.tab-btn:hover {
+  background: var(--color-background-secondary);
+  transform: translateY(-1px);
+}
+
+.tab-btn.active {
+  @apply font-semibold;
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+.tab-pane {
+  display:none;
+}
+
+.tab-pane.active {
+  display:block;
+}
+
+.score-bar-wrap {
+  @apply h-2 rounded-full overflow-hidden;
+  background: var(--color-background-secondary);
+}
+
+.score-bar {
+  @apply h-full rounded-full transition-all duration-700;
+}
+
+}
+</style>
+</head>
+<body>
+
+<main class="report">
+
+  <!-- ========================= -->
+  <!-- HEADER -->
+  <!-- ========================= -->
+
+  <header class="audit-header">
+
+    <p class="section-label">
+      Website Audit
+    </p>
+
+    <h1 class="page-title">
+      xtremedesign.in — UI/UX Analysis
+    </h1>
+
+    <p class="page-subtitle">
+      Branding & Packaging Design Agency ·
+      22+ Years Experience ·
+      1200+ Completed Projects
+    </p>
+
+  </header>
+
+
+
+  <!-- ========================= -->
+  <!-- METRIC CARDS -->
+  <!-- ========================= -->
+
+  <section
+    aria-labelledby="audit-summary"
+    class="grid gap-5 md:grid-cols-3 mb-10"
+  >
+
+    <article class="metric-card">
+
+      <div class="metric-label">
+        Overall UX Score
+      </div>
+
+      <div
+        class="metric-val"
+        style="color:var(--color-text-warning)"
+      >
+        42
+        <span class="text-base font-medium text-slate-400">
+          /100
+        </span>
+      </div>
+
+      <p class="metric-label">
+        Needs Major Work
+      </p>
+
+    </article>
+
+
+
+    <article class="metric-card">
+
+      <div class="metric-label">
+        Critical Issues Found
+      </div>
+
+      <div
+        class="metric-val"
+        style="color:var(--color-text-danger)"
+      >
+        9
+      </div>
+
+      <p class="metric-label">
+        High Priority Fixes
+      </p>
+
+    </article>
+
+
+
+    <article class="metric-card">
+
+      <div class="metric-label">
+        Improvement Potential
+      </div>
+
+      <div
+        class="metric-val"
+        style="color:var(--color-text-success)"
+      >
+        +60%
+      </div>
+
+      <p class="metric-label">
+        Estimated Score Uplift
+      </p>
+
+    </article>
+
+  </section>
+
+
+
+  <!-- ========================= -->
+  <!-- NAVIGATION -->
+  <!-- ========================= -->
+
+  <nav
+    class="tab-nav"
+    role="tablist"
+    aria-label="Audit Sections"
+  >
+
+    <button
+      id="tab-audit"
+      role="tab"
+      aria-selected="true"
+      aria-controls="pane-audit"
+      class="tab-btn active"
+      onclick="switchTab('audit', this)"
+    >
+      Audit Findings
+    </button>
+
+    <button
+      id="tab-wireframe"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pane-wireframe"
+      class="tab-btn"
+      onclick="switchTab('wireframe', this)"
+    >
+      Before vs After
+    </button>
+
+    <button
+      id="tab-roadmap"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pane-roadmap"
+      class="tab-btn"
+      onclick="switchTab('roadmap', this)"
+    >
+      Improvement Plan
+    </button>
+
+    <button
+      id="tab-checklist"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pane-checklist"
+      class="tab-btn"
+      onclick="switchTab('checklist', this)"
+    >
+      UX Checklist
+    </button>
+
+  </nav>
+
+
+
+  <!-- ========================= -->
+  <!-- AUDIT TAB -->
+  <!-- ========================= -->
+
+  <section
+    id="pane-audit"
+    class="tab-pane active"
+    role="tabpanel"
+    aria-labelledby="tab-audit"
+  >
+
+
+
+
+    <!-- ========================= -->
+    <!-- DIMENSION SCORES -->
+    <!-- ========================= -->
+
+    <section class="mb-10">
+
+      <h2 class="section-label mb-4">
+        Dimension Scores
+      </h2>
+
+      <div class="space-y-4">
+
+        <!-- HERO -->
+
+        <div class="flex items-center gap-4">
+
+          <span
+            class="text-sm shrink-0 w-40"
+            style="color:var(--color-text-secondary)"
+          >
+            First Impression / Hero
+          </span>
+
+          <div class="score-bar-wrap flex-1">
+
+            <div
+              class="score-bar"
+              style="
+              width:30%;
+              background:var(--color-text-danger);
+              "
+            ></div>
+
+          </div>
+
+          <span
+            class="font-semibold w-10 text-right"
+            style="color:var(--color-text-danger)"
+          >
+            30
+          </span>
+
+        </div>
+
+
+
+        <!-- NAVIGATION -->
+
+        <div class="flex items-center gap-4">
+
+          <span
+            class="text-sm shrink-0 w-40"
+            style="color:var(--color-text-secondary)"
+          >
+            Navigation & IA
+          </span>
+
+          <div class="score-bar-wrap flex-1">
+
+            <div
+              class="score-bar"
+              style="
+              width:40%;
+              background:var(--color-text-warning);
+              "
+            ></div>
+
+          </div>
+
+          <span
+            class="font-semibold w-10 text-right"
+            style="color:var(--color-text-warning)"
+          >
+            40
+          </span>
+
+        </div>
+
+
+
+        <!-- PORTFOLIO -->
+
+        <div class="flex items-center gap-4">
+
+          <span
+            class="text-sm shrink-0 w-40"
+            style="color:var(--color-text-secondary)"
+          >
+            Portfolio Showcase
+          </span>
+
+          <div class="score-bar-wrap flex-1">
+
+            <div
+              class="score-bar"
+              style="
+              width:35%;
+              background:var(--color-text-danger);
+              "
+            ></div>
+
+          </div>
+
+          <span
+            class="font-semibold w-10 text-right"
+            style="color:var(--color-text-danger)"
+          >
+            35
+          </span>
+
+        </div>
+
+
+
+        <!-- TRUST -->
+
+        <div class="flex items-center gap-4">
+
+          <span
+            class="text-sm shrink-0 w-40"
+            style="color:var(--color-text-secondary)"
+          >
+            Trust & Social Proof
+          </span>
+
+          <div class="score-bar-wrap flex-1">
+
+            <div
+              class="score-bar"
+              style="
+              width:45%;
+              background:var(--color-text-warning);
+              "
+            ></div>
+
+          </div>
+
+          <span
+            class="font-semibold w-10 text-right"
+            style="color:var(--color-text-warning)"
+          >
+            45
+          </span>
+
+        </div>
+
+
+
+        <!-- MOBILE -->
+
+        <div class="flex items-center gap-4">
+
+          <span
+            class="text-sm shrink-0 w-40"
+            style="color:var(--color-text-secondary)"
+          >
+            Mobile Responsiveness
+          </span>
+
+          <div class="score-bar-wrap flex-1">
+
+            <div
+              class="score-bar"
+              style="
+              width:50%;
+              background:var(--color-text-warning);
+              "
+            ></div>
+
+          </div>
+
+          <span
+            class="font-semibold w-10 text-right"
+            style="color:var(--color-text-warning)"
+          >
+            50
+          </span>
+
+        </div>
+
+
+
+        <!-- PERFORMANCE -->
+
+        <div class="flex items-center gap-4">
+
+          <span
+            class="text-sm shrink-0 w-40"
+            style="color:var(--color-text-secondary)"
+          >
+            Performance
+          </span>
+
+          <div class="score-bar-wrap flex-1">
+
+            <div
+              class="score-bar"
+              style="
+              width:25%;
+              background:var(--color-text-danger);
+              "
+            ></div>
+
+          </div>
+
+          <span
+            class="font-semibold w-10 text-right"
+            style="color:var(--color-text-danger)"
+          >
+            25
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- CRITICAL ISSUES -->
+    <!-- ========================= -->
+
+    <section>
+
+      <h2 class="section-label mb-4">
+        Critical Issues (Fix First)
+      </h2>
+<div class="grid gap-5 md:grid-cols-2">
+
+  <!-- ISSUE 1 -->
+
+  <article class="card">
+
+    <div class="flex items-center justify-between mb-3">
+
+      <h3 class="font-bold text-lg">
+        Weak Hero Section
+      </h3>
+
+      <span class="badge badge-red">
+        CRITICAL
+      </span>
+
+    </div>
+
+    <p class="text-sm text-slate-400 mb-4">
+      The homepage does not immediately communicate value,
+      differentiation, or a compelling call-to-action.
+    </p>
+
+    <ul class="space-y-2 text-sm">
+      <li>❌ Generic headline</li>
+      <li>❌ Weak emotional trigger</li>
+      <li>❌ No compelling CTA</li>
+      <li>❌ No proof above fold</li>
+    </ul>
+
+  </article>
+
+  <!-- ISSUE 2 -->
+
+  <article class="card">
+
+    <div class="flex items-center justify-between mb-3">
+
+      <h3 class="font-bold text-lg">
+        Portfolio Visibility
+      </h3>
+
+      <span class="badge badge-red">
+        HIGH
+      </span>
+
+    </div>
+
+    <p class="text-sm text-slate-400 mb-4">
+      Portfolio work lacks presentation depth,
+      filtering, categorization and conversion opportunities.
+    </p>
+
+    <ul class="space-y-2 text-sm">
+      <li>❌ Weak case studies</li>
+      <li>❌ Missing metrics</li>
+      <li>❌ Limited storytelling</li>
+      <li>❌ Low engagement design</li>
+    </ul>
+
+  </article>
+
+  <!-- ISSUE 3 -->
+
+  <article class="card">
+
+    <div class="flex items-center justify-between mb-3">
+
+      <h3 class="font-bold text-lg">
+        Social Proof Gaps
+      </h3>
+
+      <span class="badge badge-amber">
+        MEDIUM
+      </span>
+
+    </div>
+
+    <p class="text-sm text-slate-400">
+      Testimonials, client logos, reviews and authority
+      indicators are not prominent enough.
+    </p>
+
+  </article>
+
+  <!-- ISSUE 4 -->
+
+  <article class="card">
+
+    <div class="flex items-center justify-between mb-3">
+
+      <h3 class="font-bold text-lg">
+        Performance Bottlenecks
+      </h3>
+
+      <span class="badge badge-red">
+        HIGH
+      </span>
+
+    </div>
+
+    <p class="text-sm text-slate-400">
+      Heavy assets, unoptimized imagery and rendering
+      issues negatively affect perceived performance.
+    </p>
+
+  </article>
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- BEFORE / AFTER TAB -->
+<!-- ===================================== -->
+
+<section
+id="pane-wireframe"
+class="tab-pane"
+role="tabpanel"
+aria-labelledby="tab-wireframe"
+>
+
+<header class="mb-8">
+
+<h2 class="text-2xl font-bold">
+Before vs After Experience
+</h2>
+
+<p class="text-slate-400 mt-2">
+Comparison between current experience and proposed redesign.
+</p>
+
+</header>
+
+<div class="grid gap-6 lg:grid-cols-2">
+
+<article class="card">
+
+<h3 class="font-bold mb-4 text-red-400">
+Current Experience
+</h3>
+
+<ul class="space-y-3 text-sm">
+
+<li>❌ Weak value proposition</li>
+<li>❌ Visual hierarchy issues</li>
+<li>❌ Low trust visibility</li>
+<li>❌ Weak lead generation</li>
+<li>❌ Portfolio lacks storytelling</li>
+
+</ul>
+
+</article>
+
+<article class="card">
+
+<h3 class="font-bold mb-4 text-emerald-400">
+Recommended Experience
+</h3>
+
+<ul class="space-y-3 text-sm">
+
+<li>✅ Strong positioning statement</li>
+<li>✅ Premium visual storytelling</li>
+<li>✅ Authority-first design</li>
+<li>✅ Conversion-focused layout</li>
+<li>✅ Modern portfolio presentation</li>
+
+</ul>
+
+</article>
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- ROADMAP TAB -->
+<!-- ===================================== -->
+
+<section
+id="pane-roadmap"
+class="tab-pane"
+role="tabpanel"
+aria-labelledby="tab-roadmap"
+>
+
+<header class="mb-8">
+
+<h2 class="text-2xl font-bold">
+Implementation Roadmap
+</h2>
+
+<p class="text-slate-400 mt-2">
+Prioritized improvement sequence.
+</p>
+
+</header>
+
+<div class="space-y-5">
+
+<article class="card">
+
+<div class="flex items-center gap-3">
+
+<span class="badge badge-red">
+PHASE 1
+</span>
+
+<h3 class="font-bold">
+Critical UX Fixes
+</h3>
+
+</div>
+
+<ul class="mt-4 space-y-2 text-sm">
+
+<li>Hero redesign</li>
+<li>Navigation restructure</li>
+<li>Trust indicators</li>
+<li>CTA optimization</li>
+
+</ul>
+
+</article>
+
+<article class="card">
+
+<div class="flex items-center gap-3">
+
+<span class="badge badge-amber">
+PHASE 2
+</span>
+
+<h3 class="font-bold">
+Conversion Optimization
+</h3>
+
+</div>
+
+<ul class="mt-4 space-y-2 text-sm">
+
+<li>Lead generation improvements</li>
+<li>Portfolio restructuring</li>
+<li>Case studies</li>
+<li>Landing page enhancements</li>
+
+</ul>
+
+</article>
+
+<article class="card">
+
+<div class="flex items-center gap-3">
+
+<span class="badge badge-green">
+PHASE 3
+</span>
+
+<h3 class="font-bold">
+Scale & Growth
+</h3>
+
+</div>
+
+<ul class="mt-4 space-y-2 text-sm">
+
+<li>Performance optimization</li>
+<li>SEO enhancements</li>
+<li>Analytics integration</li>
+<li>Experimentation framework</li>
+
+</ul>
+
+</article>
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- CHECKLIST TAB -->
+<!-- ===================================== -->
+
+<section
+id="pane-checklist"
+class="tab-pane"
+role="tabpanel"
+aria-labelledby="tab-checklist"
+>
+
+<header class="mb-8">
+
+<h2 class="text-2xl font-bold">
+UX Improvement Checklist
+</h2>
+
+<p class="text-slate-400 mt-2">
+Track implementation progress.
+</p>
+
+</header>
+
+<div class="grid gap-4 md:grid-cols-2">
+
+<label class="card flex gap-3 items-start cursor-pointer">
+
+<input type="checkbox" class="mt-1">
+
+<span>
+Rewrite homepage hero section
+</span>
+
+</label>
+
+<label class="card flex gap-3 items-start cursor-pointer">
+
+<input type="checkbox" class="mt-1">
+
+<span>
+Improve portfolio storytelling
+</span>
+
+</label>
+
+<label class="card flex gap-3 items-start cursor-pointer">
+
+<input type="checkbox" class="mt-1">
+
+<span>
+Add social proof section
+</span>
+
+</label>
+
+<label class="card flex gap-3 items-start cursor-pointer">
+
+<input type="checkbox" class="mt-1">
+
+<span>
+Optimize page speed
+</span>
+
+</label>
+
+<label class="card flex gap-3 items-start cursor-pointer">
+
+<input type="checkbox" class="mt-1">
+
+<span>
+Improve CTA visibility
+</span>
+
+</label>
+
+<label class="card flex gap-3 items-start cursor-pointer">
+
+<input type="checkbox" class="mt-1">
+
+<span>
+Add detailed case studies
+</span>
+
+</label>
+
+</div>
+
+</section>
+
+
+
+<!-- ===================================== -->
+<!-- FOOTER -->
+<!-- ===================================== -->
+
+<footer
+class="mt-12 pt-6 border-t text-center text-sm"
+style="
+border-color:var(--color-border-tertiary);
+color:var(--color-text-tertiary);
+"
+>
+
+UI/UX Audit Report • Refactored Design System • WCAG AA Compatible
+
+</footer>
+
+</main>
+
+
+
+<!-- ===================================== -->
+<!-- ACCESSIBLE TABS -->
+<!-- ===================================== -->
+
+<script>
+
+function switchTab(tabName, button) {
+
+document
+.querySelectorAll('.tab-pane')
+.forEach(panel => {
+panel.classList.remove('active');
+});
+
+document
+.querySelectorAll('.tab-btn')
+.forEach(btn => {
+btn.classList.remove('active');
+btn.setAttribute('aria-selected', 'false');
+});
+
+document
+.getElementById(`pane-${tabName}`)
+.classList.add('active');
+
+button.classList.add('active');
+button.setAttribute('aria-selected', 'true');
+
+}
+
+document
+.querySelectorAll('[role="tab"]')
+.forEach(tab => {
+
+tab.addEventListener('keydown', (e) => {
+
+const tabs =
+Array.from(
+document.querySelectorAll('[role="tab"]')
+);
+
+let index =
+tabs.indexOf(e.currentTarget);
+
+if (e.key === 'ArrowRight') {
+tabs[(index + 1) % tabs.length].focus();
+}
+
+if (e.key === 'ArrowLeft') {
+tabs[(index - 1 + tabs.length) % tabs.length].focus();
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
