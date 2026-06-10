@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>xtremedesign.in | UI/UX Audit Dashboard</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Hanken Grotesk', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace']
+      }
+    }
+  }
+}
+</script>
+
+<style type="text/tailwindcss">
+@layer base {
+  :root {
+    --bg: #ffffff;
+    --bg2: #f8fafc;
+    --bg3: #f1f5f9;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #64748b;
+    --border2: #cbd5e1;
+    --border: #e2e8f0;
+
+    --success-bg: #ecfdf5;
+    --success-text: #047857;
+
+    --danger-bg: #fef2f2;
+    --danger-text: #b91c1c;
+
+    --warning-bg: #fffbeb;
+    --warning-text: #b45309;
+
+    --info-bg: #eff6ff;
+    --info-text: #1d4ed8;
+
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+  }
+
+  .dark {
+    --bg: #0f172a;
+    --bg2: #1e293b;
+    --bg3: #334155;
+    --text: #f8fafc;
+    --text2: #cbd5e1;
+    --text3: #94a3b8;
+    --border2: #475569;
+    --border: #334155;
+
+    --success-bg: #052e16;
+    --success-text: #6ee7b7;
+
+    --danger-bg: #450a0a;
+    --danger-text: #fca5a5;
+
+    --warning-bg: #451a03;
+    --warning-text: #fcd34d;
+
+    --info-bg: #172554;
+    --info-text: #93c5fd;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  :focus-visible {
+    @apply outline-none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .35);
+    border-color: rgba(59, 130, 246, .7) !important;
+  }
+}
+
+@layer components {
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-[11px] font-medium;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-success { background: var(--success-bg); color: var(--success-text); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger-text); }
+  .badge-warning { background: var(--warning-bg); color: var(--warning-text); }
+  .badge-info { background: var(--info-bg); color: var(--info-text); }
+
+  .card-glass {
+    @apply rounded-2xl border backdrop-blur-sm p-5;
+    border-color: var(--border);
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 14px 40px rgba(0,0,0,.08);
+  }
+  .dark .card-glass {
+    background: rgba(2,6,23,0.55);
+    box-shadow: 0 16px 45px rgba(0,0,0,.35);
+  }
+
+  .card-glass-hover {
+    @apply transition-transform duration-200;
+  }
+  .card-glass-hover:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-glass {
+    @apply rounded-2xl border relative overflow-hidden p-6;
+    border-color: var(--border);
+    background: linear-gradient(135deg, var(--bg2), var(--bg));
+    box-shadow: 0 16px 48px rgba(0,0,0,.12);
+  }
+  .metric-glass::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at top right, rgba(255,255,255,.12), transparent 40%);
+    pointer-events:none;
+  }
+
+  .scorebar {
+    @apply h-2 rounded-full overflow-hidden;
+    background: rgba(148,163,184,.22);
+  }
+  .dark .scorebar { background: rgba(148,163,184,.14); }
+
+  .scorefill {
+    @apply h-full rounded-full transition-all duration-700;
+  }
+
+  .tablist {
+    @apply flex flex-wrap gap-2 border-b pb-3;
+    border-color: var(--border);
+  }
+
+  .tabbtn {
+    @apply px-4 py-2 rounded-xl text-sm transition-all duration-200;
+    color: var(--text2);
+    border: 1px solid transparent;
+    background: transparent;
+  }
+  .tabbtn:hover {
+    background: var(--bg2);
+    transform: translateY(-1px);
+  }
+  .tabbtn[aria-selected="true"] {
+    background: var(--bg2);
+    color: var(--text);
+    border-color: rgba(148,163,184,.35);
+    font-weight: 600;
+  }
+
+  .tabpanel { display:none; }
+  .tabpanel[data-active="true"] { display:block; }
+
+  .section-label {
+    @apply uppercase tracking-[0.18em] text-xs font-semibold mb-2;
+    color: var(--text3);
+  }
+
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-glass-hover, .scorefill { transition: none !important; }
+  html:focus-within { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<main class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+
+  <h1 class="sr-only">UI/UX Audit and Improvement Plan for xtremedesign.in</h1>
+
+  <header class="mb-10">
+    <p class="section-label">Website audit</p>
+    <div class="text-3xl md:text-4xl font-extrabold">xtremedesign.in — UI/UX Analysis</div>
+    <div class="mt-2 text-sm md:text-base" style="color: var(--text2);">Branding &amp; packaging design agency · 22+ years · 1200+ projects</div>
+  </header>
+
+  <section aria-label="Audit summary" class="grid gap-5 md:grid-cols-3 mb-8">
+    <article class="metric-glass card-glass-hover">
+      <div class="section-label mb-3" style="margin-bottom:0; font-size:11px; letter-spacing:0.08em;">Overall UX score</div>
+      <div class="mt-2 text-4xl font-extrabold" style="color: var(--warning-text); font-family: 'JetBrains Mono', monospace;">42<span class="text-base font-medium" style="color: var(--text3);">/100</span></div>
+      <p class="mt-3" style="font-size:12px; color: var(--text2);">Needs major work</p>
+    </article>
+
+    <article class="metric-glass card-glass-hover">
+      <div class="section-label mb-3" style="margin-bottom:0; font-size:11px; letter-spacing:0.08em;">Critical issues found</div>
+      <div class="mt-2 text-4xl font-extrabold" style="color: var(--danger-text); font-family: 'JetBrains Mono', monospace;">9</div>
+      <p class="mt-3" style="font-size:12px; color: var(--text2);">High priority fixes</p>
+    </article>
+
+    <article class="metric-glass card-glass-hover">
+      <div class="section-label mb-3" style="margin-bottom:0; font-size:11px; letter-spacing:0.08em;">Improvement potential</div>
+      <div class="mt-2 text-4xl font-extrabold" style="color: var(--success-text); font-family: 'JetBrains Mono', monospace;">+60%</div>
+      <p class="mt-3" style="font-size:12px; color: var(--text2);">Estimated score uplift</p>
+    </article>
+  </section>
+
+  <nav class="tablist" role="tablist" aria-label="Audit Sections">
+    <button type="button" role="tab" id="tab-audit" aria-selected="true" aria-controls="pane-audit" class="tabbtn" tabindex="0" data-tab="audit">Audit Findings</button>
+    <button type="button" role="tab" id="tab-wireframe" aria-selected="false" aria-controls="pane-wireframe" class="tabbtn" tabindex="-1" data-tab="wireframe">Before vs After</button>
+    <button type="button" role="tab" id="tab-roadmap" aria-selected="false" aria-controls="pane-roadmap" class="tabbtn" tabindex="-1" data-tab="roadmap">Roadmap</button>
+    <button type="button" role="tab" id="tab-checklist" aria-selected="false" aria-controls="pane-checklist" class="tabbtn" tabindex="-1" data-tab="checklist">Checklist</button>
+    <button type="button" role="tab" id="tab-preview" aria-selected="false" aria-controls="pane-preview" class="tabbtn" tabindex="-1" data-tab="preview">Preview</button>
+  </nav>
+
+  <!-- 1) Audit Findings -->
+  <section id="pane-audit" class="tabpanel" data-active="true" role="tabpanel" aria-labelledby="tab-audit">
+
+    <section aria-label="Dimension scores" class="mb-10">
+      <h2 class="section-label">Dimension scores</h2>
+
+      <div class="mb-5" aria-label="Dimension score bars">
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">First impression / hero</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:30%; background: var(--danger-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--danger-text); font-family: 'JetBrains Mono', monospace;">30</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">Navigation &amp; IA</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:40%; background: var(--warning-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--warning-text); font-family: 'JetBrains Mono', monospace;">40</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">Portfolio showcase</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:35%; background: var(--danger-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--danger-text); font-family: 'JetBrains Mono', monospace;">35</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">Trust &amp; social proof</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:45%; background: var(--warning-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--warning-text); font-family: 'JetBrains Mono', monospace;">45</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">Mobile responsiveness</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:50%; background: var(--warning-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--warning-text); font-family: 'JetBrains Mono', monospace;">50</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">Page speed / performance</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:25%; background: var(--danger-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--danger-text); font-family: 'JetBrains Mono', monospace;">25</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">CTA clarity &amp; conversion</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:35%; background: var(--danger-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--danger-text); font-family: 'JetBrains Mono', monospace;">35</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">SEO &amp; discoverability</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:40%; background: var(--warning-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--warning-text); font-family: 'JetBrains Mono', monospace;">40</span>
+        </div>
+        <div class="flex items-center gap-4 mb-2">
+          <span class="text-sm shrink-0 w-40" style="color: var(--text2);">Typography &amp; visual design</span>
+          <div class="scorebar flex-1"><div class="scorefill" style="width:55%; background: var(--warning-text);"></div></div>
+          <span class="text-sm font-semibold w-10 text-right" style="color: var(--warning-text); font-family: 'JetBrains Mono', monospace;">55</span>
+        </div>
+      </div>
+
+      <hr class="border-t" style="border-color: var(--border);" />
+
+      <h2 class="section-label mt-6" style="margin-bottom:12px;">Critical issues (fix first)</h2>
+
+      <div class="space-y-4" role="list" aria-label="Critical issues">
+        <article class="card-glass card-glass-hover" role="listitem">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:18px;">📴</span>
+            <div class="flex-1">
+              <strong class="text-[14px]">JavaScript-only rendering (React SPA)</strong>
+              <div class="mt-2">
+                <span class="badge badge-danger">Critical</span>
+              </div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">The entire site fails to load without JavaScript — search engines and tools see blank content</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">No server-side rendering (SSR) or static generation means zero SEO indexability for a design agency</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">First contentful paint is severely delayed — users on slow mobile connections see nothing for 3–6 seconds</span>
+            </li>
+            <li class="flex items-start gap-2 py-1">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);"><strong>Fix:</strong> Migrate to Next.js with SSR/SSG, or add a static HTML fallback for critical pages</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card-glass card-glass-hover" role="listitem">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:18px;">🙈</span>
+            <div class="flex-1">
+              <strong class="text-[14px]">Weak hero section — no clear value proposition</strong>
+              <div class="mt-2"><span class="badge badge-danger">Critical</span></div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">Visitors can't immediately understand what Xtreme Design does and why they should stay</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">No compelling headline — the agency has 22+ years and 1200+ projects but this isn't front and centre</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">Absence of a strong above-the-fold CTA ("Get a quote", "See our work") means high bounce rates</span>
+            </li>
+            <li class="flex items-start gap-2 py-1">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);"><strong>Fix:</strong> Redesign hero with bold headline, a 3-second pitch, featured project image, and one primary CTA</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card-glass card-glass-hover" role="listitem">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:18px;">🚫🖼️</span>
+            <div class="flex-1">
+              <strong class="text-[14px]">Portfolio presentation is not doing its job</strong>
+              <div class="mt-2"><span class="badge badge-danger">Critical</span></div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">For a visual agency, the work samples must be large, beautiful, and impossible to miss</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">No case study format: each project needs context (brief, challenge, process, result)</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">No filtering by industry (FMCG, cosmetics, pharma, etc.) — makes browsing laborious</span>
+            </li>
+            <li class="flex items-start gap-2 py-1">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);"><strong>Fix:</strong> Full-bleed project tiles, hover reveals, case study detail pages per project</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="card-glass card-glass-hover" role="listitem">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:18px;">📣</span>
+            <div class="flex-1">
+              <strong class="text-[14px]">No clear conversion funnel</strong>
+              <div class="mt-2"><span class="badge badge-danger">Critical</span></div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">Scattered or absent CTAs — users don't know what action to take next</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">No "Request a quote" form, no WhatsApp button, no instant contact mechanism</span>
+            </li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);">Missing lead-capture opportunity: no newsletter, no lead magnet, no consultation booking</span>
+            </li>
+            <li class="flex items-start gap-2 py-1">
+              <span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span>
+              <span style="font-size:13px;color: var(--text2);"><strong>Fix:</strong> Sticky header CTA, per-section CTAs, quick-contact floating widget</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <hr class="border-t mt-8" style="border-color: var(--border);" />
+
+      <h2 class="section-label" style="margin-bottom:12px; margin-top:16px;">High priority issues</h2>
+
+      <div class="grid gap-5 md:grid-cols-2">
+        <article class="card-glass card-glass-hover">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:16px;">🏅</span>
+            <div class="flex-1">
+              <strong class="text-[13px]">Weak trust signals</strong>
+              <div class="mt-2">
+                <span class="badge badge-warning" style="margin-left:auto;">High</span>
+              </div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Client logos not prominently displayed</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">No awards or recognition section</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Testimonials absent or hard to find</span></li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">No "As seen on" media mentions</span></li>
+          </ul>
+        </article>
+
+        <article class="card-glass card-glass-hover">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:16px;">🔤</span>
+            <div class="flex-1">
+              <strong class="text-[13px]">Typography &amp; readability</strong>
+              <div class="mt-2"><span class="badge badge-warning" style="margin-left:auto;">High</span></div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">No clear typographic hierarchy</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Body text likely too small on mobile</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Line length may exceed 80 characters</span></li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Insufficient contrast on body copy</span></li>
+          </ul>
+        </article>
+
+        <article class="card-glass card-glass-hover">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:16px;">🗺️</span>
+            <div class="flex-1">
+              <strong class="text-[13px]">Navigation &amp; IA</strong>
+              <div class="mt-2"><span class="badge badge-warning" style="margin-left:auto;">High</span></div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Navigation items not self-explanatory</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">No breadcrumbs on inner pages</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Footer lacks useful site links</span></li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Mobile hamburger menu may be clunky</span></li>
+          </ul>
+        </article>
+
+        <article class="card-glass card-glass-hover">
+          <div class="flex items-start gap-4">
+            <span aria-hidden="true" class="text-2xl leading-none" style="font-size:16px;">🔎</span>
+            <div class="flex-1">
+              <strong class="text-[13px]">SEO deficiencies</strong>
+              <div class="mt-2"><span class="badge badge-warning" style="margin-left:auto;">High</span></div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0;">
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Generic meta description (no location)</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">No structured data / schema markup</span></li>
+            <li class="flex items-start gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">No blog or content marketing section</span></li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--warning-text);margin-top:7px;flex-shrink:0;"></span><span style="font-size:13px;color: var(--text2);">Missing Open Graph tags for sharing</span></li>
+          </ul>
+        </article>
+      </div>
+
+    </section>
+  </section>
+
+  <!-- 2) Before vs After -->
+  <section id="pane-wireframe" class="tabpanel" data-active="false" role="tabpanel" aria-labelledby="tab-wireframe">
+    <section aria-label="Hero section — before vs after" class="mb-8">
+      <h2 class="section-label">Hero section — before vs after</h2>
+
+      <div class="grid gap-6 lg:grid-cols-2">
+        <article class="card-glass">
+          <div class="text-[13px] font-medium mb-2" style="color: var(--danger-text);">Current state ✗</div>
+          <div class="rounded-xl border overflow-hidden" style="border-color: var(--border); background: rgba(148,163,184,.12);">
+            <div class="flex items-center gap-2 px-3 py-2" style="border-bottom: 0.5px solid var(--border); background: rgba(2,6,23,.02);">
+              <div class="flex gap-1" aria-hidden="true">
+                <span class="w-2.5 h-2.5 rounded-full" style="background: rgba(148,163,184,.55);"></span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: rgba(148,163,184,.55);"></span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: rgba(148,163,184,.55);"></span>
+              </div>
+              <div class="flex-1 text-[11px]" style="color: var(--text2); background: var(--bg2); border-radius: 4px; padding: 3px 10px;">xtremedesign.in</div>
+            </div>
+            <div class="p-4">
+              <div class="flex gap-4 text-[12px]" style="color: var(--text2); border-bottom: 0.5px solid var(--border); padding-bottom: 10px; margin-bottom: 10px;">
+                <span>Logo</span><span>About</span><span>Services</span><span>Portfolio</span><span>Contact</span>
+              </div>
+              <div class="rounded-lg p-4" style="background: var(--bg2); text-align:center; margin-bottom:10px;">
+                <div class="text-[12px] font-medium mb-1" style="color: var(--text);">Xtreme Design</div>
+                <div class="text-[11px]" style="color: var(--text2); margin-bottom:8px;">Branding and Packaging Design Agency</div>
+                <div class="inline-block rounded-md px-4 py-2 text-[12px] font-medium" style="background: rgba(148,163,184,.25); color: var(--text2);">Know More</div>
+              </div>
+              <div class="grid grid-cols-3 gap-1">
+                <div class="rounded p-2 flex items-center justify-center text-[10px] h-[40px]" style="background: var(--bg2); color: var(--text3); border-radius:4px;">Service 1</div>
+                <div class="rounded p-2 flex items-center justify-center text-[10px] h-[40px]" style="background: var(--bg2); color: var(--text3); border-radius:4px;">Service 2</div>
+                <div class="rounded p-2 flex items-center justify-center text-[10px] h-[40px]" style="background: var(--bg2); color: var(--text3); border-radius:4px;">Service 3</div>
+              </div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0 4px;">
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;"></span>Generic headline with no hook</li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;"></span>Weak CTA "Know More" — no urgency</li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;"></span>No hero visual / featured work</li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--danger-text);margin-top:7px;"></span>Credibility stats hidden or absent</li>
+          </ul>
+        </article>
+
+        <article class="card-glass">
+          <div class="text-[13px] font-medium mb-2" style="color: var(--success-text);">Recommended redesign ✓</div>
+          <div class="rounded-xl border overflow-hidden" style="border-color: var(--border); background: rgba(148,163,184,.12);">
+            <div class="flex items-center gap-2 px-3 py-2" style="border-bottom: 0.5px solid var(--border); background: rgba(2,6,23,.02);">
+              <div class="flex gap-1" aria-hidden="true">
+                <span class="w-2.5 h-2.5 rounded-full" style="background: rgba(148,163,184,.55);"></span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: rgba(148,163,184,.55);"></span>
+                <span class="w-2.5 h-2.5 rounded-full" style="background: rgba(148,163,184,.55);"></span>
+              </div>
+              <div class="flex-1 text-[11px]" style="color: var(--text2); background: var(--bg2); border-radius: 4px; padding: 3px 10px;">xtremedesign.in</div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between" style="border-bottom: 0.5px solid var(--border); padding-bottom: 10px; margin-bottom: 10px;">
+                <span class="font-medium text-[12px]">Xtreme Design</span>
+                <span class="flex gap-3 text-[11px]" style="color: var(--text2);"><span>Work</span><span>Services</span><span>About</span></span>
+                <div class="inline-block rounded-md px-3 py-1 text-[11px] font-medium" style="background: var(--info-bg); color: #fff;">Get a quote</div>
+              </div>
+              <div class="rounded-lg p-4" style="background: var(--info-bg); text-align:left; margin-bottom:10px;">
+                <div class="text-[11px] font-medium mb-1" style="color: var(--info-text);">India's packaging &amp; branding specialists</div>
+                <div class="text-[14px] font-medium mb-1" style="color: var(--info-text);">We turn products into brands that sell off shelves.</div>
+                <div class="text-[10px] mb-2" style="color: var(--info-text); opacity:.7;">22+ years · 1200+ projects · FMCG, cosmetics, pharma</div>
+                <div class="inline-block rounded-md px-4 py-2 text-[12px] font-medium" style="background: var(--info-bg); color: #fff; margin-right:6px;">See our work</div>
+                <div class="inline-block rounded-md px-4 py-2 text-[11px] font-medium" style="background: rgba(148,163,184,.25); color: var(--text2);">Talk to us →</div>
+              </div>
+              <div class="flex gap-1 mt-2">
+                <div class="flex-1 h-[50px] rounded p-2 flex items-center justify-center text-[9px]" style="background: var(--bg2); color: var(--text3);">Client logo</div>
+                <div class="flex-1 h-[50px] rounded p-2 flex items-center justify-center text-[9px]" style="background: var(--bg2); color: var(--text3);">Client logo</div>
+                <div class="flex-1 h-[50px] rounded p-2 flex items-center justify-center text-[9px]" style="background: var(--bg2); color: var(--text3);">Client logo</div>
+                <div class="flex-1 h-[50px] rounded p-2 flex items-center justify-center text-[9px]" style="background: var(--bg2); color: var(--text3);">Client logo</div>
+              </div>
+            </div>
+          </div>
+          <ul class="mt-3" style="list-style:none; padding:0 4px;">
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--success-text);margin-top:7px;"></span>Specific headline tied to outcome ("sell off shelves")</li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--success-text);margin-top:7px;"></span>Dual CTA: primary action + soft option</li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--success-text);margin-top:7px;"></span>Experience stats front and centre</li>
+            <li class="flex items-start gap-2 py-1"><span aria-hidden="true" style="width:6px;height:6px;border-radius:9999px;background: var(--success-text);margin-top:7px;"></span>Client logos for instant credibility</li>
+          </ul>
+        </article>
+      </div>
+
+      <hr class="border-t mt-8" style="border-color: var(--border);" />
+
+      <h2 class="section-label mt-6" style="margin-bottom:12px;">Portfolio section — before vs after</h2>
+      <div class="grid gap-3 md:grid-cols-2">
+        <div class="rounded-xl p-4" style="background: var(--danger-bg); color: var(--danger-text); font-size:13px;">
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-70 mb-2">Current</div>
+          Grid of thumbnails with no context, no hover interaction, no filtering, no case study depth, no industry tags, projects feel like a slideshow rather than proof of expertise.
+        </div>
+        <div class="rounded-xl p-4" style="background: var(--success-bg); color: var(--success-text); font-size:13px;">
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-70 mb-2">Recommended</div>
+          Full-bleed tiles filterable by industry (FMCG, pharma, cosmetics, retail). Each tile: project name + brand + year. On hover: brief challenge statement. Click opens a case study with full process story, before/after, measurable outcome.
+        </div>
+      </div>
+
+      <hr class="border-t mt-8" style="border-color: var(--border);" />
+
+      <h2 class="section-label mt-6" style="margin-bottom:12px;">Contact / conversion — before vs after</h2>
+      <div class="grid gap-3 md:grid-cols-2">
+        <div class="rounded-xl p-4" style="background: var(--danger-bg); color: var(--danger-text); font-size:13px;">
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-70 mb-2">Current</div>
+          Static contact page with email/phone only. No WhatsApp shortcut despite Indian audience. No estimated response time. No project brief form. High friction for a potential client.
+        </div>
+        <div class="rounded-xl p-4" style="background: var(--success-bg); color: var(--success-text); font-size:13px;">
+          <div class="text-[11px] font-medium uppercase tracking-wide opacity-70 mb-2">Recommended</div>
+          Sticky floating "Get a quote" button site-wide. Contact page has: a 3-field project brief form (name, product type, timeline), WhatsApp click-to-chat button, Google Maps embed, "Reply within 4 hours" promise, and calendar booking link.
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- 3) Roadmap -->
+  <section id="pane-roadmap" class="tabpanel" data-active="false" role="tabpanel" aria-labelledby="tab-roadmap">
+    <h2 class="section-label mb-4">Phased improvement roadmap</h2>
+
+    <div class="space-y-5">
+      <article class="relative border-l-2 pl-4" style="border-color: var(--danger-text);">
+        <div class="absolute -left-[6px] top-2 w-2.5 h-2.5 rounded-full" style="background: var(--danger-text);"></div>
+        <div class="font-medium text-[15px]">Phase 1 — Foundation fixes <span class="font-normal text-[12px]" style="color: var(--text3);">(Week 1–2)</span></div>
+        <div class="text-[13px]" style="color: var(--text2); margin-top:2px; margin-bottom:8px;">Technical and structural blockers that are hurting every visitor and every Google crawl right now.</div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Migrate to SSR / Next.js — fix the JavaScript-only rendering that blocks SEO</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Add meta tags: unique title, description with city/niche, Open Graph, Twitter cards</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Add schema markup: LocalBusiness, CreativeWork for portfolio items</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Fix Core Web Vitals — lazy-load images, compress assets, use CDN</span></div>
+        <div class="flex items-center gap-2 py-1"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Set up 404 page and consistent URL structure</span></div>
+      </article>
+
+      <article class="relative border-l-2 pl-4" style="border-color: var(--warning-text);">
+        <div class="absolute -left-[6px] top-2 w-2.5 h-2.5 rounded-full" style="background: var(--warning-text);"></div>
+        <div class="font-medium text-[15px]">Phase 2 — Hero &amp; first impression <span class="font-normal text-[12px]" style="color: var(--text3);">(Week 2–3)</span></div>
+        <div class="text-[13px]" style="color: var(--text2); margin-top:2px; margin-bottom:8px;">The homepage above the fold determines whether 70% of visitors stay or leave.</div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Write a specific, outcome-driven headline. Replace generic tagline with proof of value.</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Add sticky navigation with "Get a quote" CTA button (contrasting colour)</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Add hero stats strip: "22+ years | 1200+ projects | 500+ brands"</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Place 6–8 top client logos just below the fold for instant social proof</span></div>
+        <div class="flex items-center gap-2 py-1"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Feature one standout project as a full-bleed hero background or split layout</span></div>
+      </article>
+
+      <article class="relative border-l-2 pl-4" style="border-color: var(--warning-text);">
+        <div class="absolute -left-[6px] top-2 w-2.5 h-2.5 rounded-full" style="background: var(--warning-text);"></div>
+        <div class="font-medium text-[15px]">Phase 3 — Portfolio overhaul <span class="font-normal text-[12px]" style="color: var(--text3);">(Week 3–5)</span></div>
+        <div class="text-[13px]" style="color: var(--text2); margin-top:2px; margin-bottom:8px;">The portfolio is the agency's primary sales tool. It must sell silently.</div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Create industry filter: All / FMCG / Cosmetics / Pharma / Beverages / Retail</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-danger" style="font-size:10px; padding:2px 8px;">P1</span><span class="text-[13px]">Add hover interaction on each project tile (overlay with project name + category)</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Build 5–8 detailed case study pages: Brief → Challenge → Process → Outcome</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Add before/after slider for select projects to dramatise transformation</span></div>
+        <div class="flex items-center gap-2 py-1"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Add a "Similar projects" section at the bottom of each case study</span></div>
+      </article>
+
+      <article class="relative border-l-2 pl-4" style="border-color: var(--info-text);">
+        <div class="absolute -left-[6px] top-2 w-2.5 h-2.5 rounded-full" style="background: var(--info-text);"></div>
+        <div class="font-medium text-[15px]">Phase 4 — Trust &amp; social proof <span class="font-normal text-[12px]" style="color: var(--text3);">(Week 5–6)</span></div>
+        <div class="text-[13px]" style="color: var(--text2); margin-top:2px; margin-bottom:8px;">For B2B design services, trust is the primary conversion factor.</div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Add 5–6 testimonials with photo, name, company, and specific outcome</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Create an awards &amp; recognition section (any industry awards, certifications)</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Add a "Process" page explaining how the agency works (discovery → concepts → delivery)</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Add a Google Reviews widget or embed real ratings</span></div>
+        <div class="flex items-center gap-2 py-1"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Add an FAQ section that pre-empts buyer hesitations</span></div>
+      </article>
+
+      <article class="relative border-l-2 pl-4" style="border-color: var(--success-text);">
+        <div class="absolute -left-[6px] top-2 w-2.5 h-2.5 rounded-full" style="background: var(--success-text);"></div>
+        <div class="font-medium text-[15px]">Phase 5 — Conversion &amp; contact <span class="font-normal text-[12px]" style="color: var(--text3);">(Week 6–7)</span></div>
+        <div class="text-[13px]" style="color: var(--text2); margin-top:2px; margin-bottom:8px;">Lower the friction of reaching out to near-zero.</div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Add floating WhatsApp button — essential for Indian B2B audience</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Redesign contact page: brief project intake form (3–4 fields max)</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-warning" style="font-size:10px; padding:2px 8px;">P2</span><span class="text-[13px]">Add "Typical project timeline" and "What to expect" to reduce pre-sale anxiety</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Add a Calendly or booking link for a discovery call</span></div>
+        <div class="flex items-center gap-2 py-1"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Add exit-intent popup with lead magnet (e.g. "Free packaging brief template")</span></div>
+      </article>
+
+      <article class="relative border-l-2 pl-4 mb-0" style="border-color: var(--success-text);">
+        <div class="absolute -left-[6px] top-2 w-2.5 h-2.5 rounded-full" style="background: var(--success-text);"></div>
+        <div class="font-medium text-[15px]">Phase 6 — Content &amp; SEO growth <span class="font-normal text-[12px]" style="color: var(--text3);">(Ongoing)</span></div>
+        <div class="text-[13px]" style="color: var(--text2); margin-top:2px; margin-bottom:8px;">Turn the website into an inbound lead engine over time.</div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Launch a blog: "Packaging trends 2026", "How to brief a design agency", etc.</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Industry landing pages: "Packaging design for FMCG brands in India"</span></div>
+        <div class="flex items-center gap-2 py-1" style="border-bottom: 0.5px solid var(--border);"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Add city landing pages: Delhi, Mumbai, Bangalore — for local SEO</span></div>
+        <div class="flex items-center gap-2 py-1"><span class="badge badge-success" style="font-size:10px; padding:2px 8px;">P3</span><span class="text-[13px]">Create a free "Brand audit" or "Packaging brief" downloadable template as lead magnet</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4) Checklist -->
+  <section id="pane-checklist" class="tabpanel" data-active="false" role="tabpanel" aria-labelledby="tab-checklist">
+    <h2 class="section-label mb-4">Design agency website best-practice checklist</h2>
+
+    <article class="card-glass card-glass-hover mb-4" aria-label="Performance & technical">
+      <div class="text-[13px] font-medium mb-3">Performance &amp; technical</div>
+      <div class="space-y-0">
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"> <strong>Server-side rendering</strong> — content loads without JavaScript dependency</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"> <strong>Core Web Vitals passing</strong> — LCP < 2.5s, FID < 100ms, CLS < 0.1</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"> <strong>Lazy image loading</strong> — especially for portfolio grids</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"> <strong>WebP / next-gen image formats</strong> — significant file size reduction</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--success-bg); color: var(--success-text); font-size:10px; margin-top:1px;">✓</div>
+          <div style="font-size:13px;"> <strong>HTTPS enabled</strong> — basic security standard</div>
+        </div>
+        <div class="flex items-start gap-3 py-2">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"> <strong>Schema.org structured data</strong> — LocalBusiness + portfolio items</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card-glass card-glass-hover mb-4" aria-label="User experience">
+      <div class="text-[13px] font-medium mb-3">User experience</div>
+      <div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Clear value proposition in hero</strong> — outcome-focused, not title-focused</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Primary CTA visible on every page</strong> — sticky header "Get a quote" button</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Portfolio filterable by category</strong> — helps clients find relevant work fast</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Case study pages</strong> — brief, challenge, solution, outcome for each project</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Mobile-first design</strong> — 70%+ of Indian traffic is mobile</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>WhatsApp contact shortcut</strong> — standard expectation for Indian SME audiences</div>
+        </div>
+        <div class="flex items-start gap-3 py-2">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--success-bg); color: var(--success-text); font-size:10px; margin-top:1px;">✓</div>
+          <div style="font-size:13px;"><strong>Services clearly listed</strong> — branding, packaging, digital mentioned</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card-glass card-glass-hover" aria-label="Trust & conversion">
+      <div class="text-[13px] font-medium mb-3">Trust &amp; conversion</div>
+      <div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Client logos above the fold</strong> — recognisable brands build instant credibility</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Testimonials with name, photo, company</strong> — verified social proof</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Quantified stats front-and-centre</strong> — "22 years · 1200 projects · 500 brands"</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Project intake / quote form</strong> — low-friction way to start a conversation</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>Response time promise</strong> — "We reply within 4 hours" reduces drop-off</div>
+        </div>
+        <div class="flex items-start gap-3 py-2" style="border-bottom: 0.5px solid var(--border);">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--success-bg); color: var(--success-text); font-size:10px; margin-top:1px;">✓</div>
+          <div style="font-size:13px;"><strong>Contact information present</strong> — phone and email accessible</div>
+        </div>
+        <div class="flex items-start gap-3 py-2">
+          <div class="w-[18px] h-[18px] rounded-full flex items-center justify-center flex-shrink-0" style="background: var(--danger-bg); color: var(--danger-text); font-size:10px; margin-top:1px;">✗</div>
+          <div style="font-size:13px;"><strong>About page tells the founder story</strong> — personal connection drives B2B trust</div>
+        </div>
+      </div>
+    </article>
+
+    <hr class="border-t my-8" style="border-color: var(--border);" />
+
+    <div class="text-[12px]" style="color: var(--text3); text-align:center;">
+      Analysis based on site metadata, tech stack (React SPA / no SSR), domain category, and India B2B design agency benchmarks.
+    </div>
+    <div class="text-center">
+      <a
+        class="inline-block mt-3"
+        href="#"
+        role="button"
+        aria-label="Build a redesigned hero mockup"
+        onclick="return false;"
+        style="display:inline-block; margin:10px auto 0; font-size:12px; padding:6px 16px; border-radius:6px; color: inherit; border: 1px solid var(--border2); background: rgba(148,163,184,.08);"
+      >
+        Build a redesigned hero mockup ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- 5) Preview -->
+  <section id="pane-preview" class="tabpanel" data-active="false" role="tabpanel" aria-labelledby="tab-preview">
+    <header class="mb-6">
+      <h2 class="section-label" style="margin-bottom:8px;">Preview</h2>
+      <p class="text-sm" style="color: var(--text2);">Responsive cards for every HTML file referenced in the project.</p>
+    </header>
+
+    <div id="previewGrid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+  </section>
+
+  <footer class="mt-12 pt-6 border-t text-center text-sm" style="border-color: var(--border); color: var(--text3);">
+    UI/UX Audit Dashboard • Premium Design System • WCAG AA Compatible
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+  const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+  function setActive(tabKey){
+    const activeTab = document.querySelector('[role="tab"][data-tab="'+tabKey+'"]');
+    if(!activeTab) return;
+
+    tabs.forEach(t => {
+      const selected = t === activeTab;
+      t.setAttribute('aria-selected', selected ? 'true' : 'false');
+      t.tabIndex = selected ? 0 : -1;
+    });
+
+    panels.forEach(p => {
+      const isActive = p.id === activeTab.getAttribute('aria-controls');
+      p.dataset.active = isActive ? 'true' : 'false';
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      setActive(tab.dataset.tab);
+    });
+
+    tab.addEventListener('keydown', (e) => {
+      const idx = tabs.indexOf(e.currentTarget);
+
+      if(e.key === 'ArrowRight'){
+        e.preventDefault();
+        const next = tabs[(idx + 1) % tabs.length];
+        next.focus();
+        setActive(next.dataset.tab);
+      }
+      if(e.key === 'ArrowLeft'){
+        e.preventDefault();
+        const prev = tabs[(idx - 1 + tabs.length) % tabs.length];
+        prev.focus();
+        setActive(prev.dataset.tab);
+      }
+      if(e.key === 'Home'){
+        e.preventDefault();
+        tabs[0].focus();
+        setActive(tabs[0].dataset.tab);
+      }
+      if(e.key === 'End'){
+        e.preventDefault();
+        const last = tabs[tabs.length - 1];
+        last.focus();
+        setActive(last.dataset.tab);
+      }
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        setActive(e.currentTarget.dataset.tab);
+      }
+    });
+  });
+
+  // Preview cards
+  const grid = document.getElementById('previewGrid');
+  const targets = [
+    // { file: 'index.html', desc: 'Homepage / main entry point', type: 'HTML' },
+    { file: 'bold_editorial_ultra_premium.html', desc: 'Bold editorial ultra premium variant', type: 'HTML' },
+    { file: 'bold_editorial_variant.html', desc: 'Bold editorial variant', type: 'HTML' },
+    { file: 'clean_professional_variant.html', desc: 'Clean professional variant', type: 'HTML' },
+    { file: 'modern_minimal_variant.html', desc: 'Modern minimal variant', type: 'HTML' },
+    { file: 'vibrant_creative_variant.html', desc: 'Vibrant creative variant', type: 'HTML' },
+    // { file: 'xtreme_design/stitch_xtreme_design_homepage_variants/bold_editorial_ultra_premium/bold_editorial_ultra_premium.html', desc: 'Stitch: bold editorial ultra premium', type: 'HTML' },
+    // { file: 'xtreme_design/stitch_xtreme_design_homepage_variants/bold_editorial_variant/bold_editorial_variant.html', desc: 'Stitch: bold editorial variant', type: 'HTML' },
+    // { file: 'xtreme_design/stitch_xtreme_design_homepage_variants/clean_professional_variant/clean_professional_variant.html', desc: 'Stitch: clean professional variant', type: 'HTML' },
+    // { file: 'xtreme_design/stitch_xtreme_design_homepage_variants/modern_minimal_variant/modern_minimal_variant.html', desc: 'Stitch: modern minimal variant', type: 'HTML' },
+    // { file: 'xtreme_design/stitch_xtreme_design_homepage_variants/vibrant_creative_variant/vibrant_creative_variant.html', desc: 'Stitch: vibrant creative variant', type: 'HTML' }
+  ];
+
+  const icon = (label) => `
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 7h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M6 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Z" stroke="currentColor" stroke-width="2"/>
+    </svg>
+  `;
+
+  function cardHtml(t){
+    return `
+      <article class="card-glass card-glass-hover">
+        <div class="flex items-start gap-4">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background: rgba(148,163,184,.15); color: var(--text2);">
+            ${icon('preview')}
+          </div>
+          <div class="flex-1">
+            <div class="text-xs font-semibold" style="color: var(--text3); font-family: 'JetBrains Mono', monospace;">FILE</div>
+            <div class="text-[13px] font-semibold" style="font-family: 'JetBrains Mono', monospace;">${t.file}</div>
+            <div class="mt-2 text-sm" style="color: var(--text2);">${t.desc}</div>
+            <div class="mt-2 flex items-center gap-2">
+              <span class="badge badge-info">${t.type}</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <a
+            class="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold"
+            style="background: var(--bg2); border:1px solid var(--border); color: var(--text); font-family: 'JetBrains Mono', monospace;"
+            href="${t.file}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open preview for ${t.file}"
+          >Open Preview ↗</a>
+        </div>
+      </article>
+    `;
+  }
+
+  grid.innerHTML = targets.map(cardHtml).join('');
+})();
+</script>
+</body>
+</html>
+
